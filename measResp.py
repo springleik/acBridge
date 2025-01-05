@@ -13,16 +13,11 @@ import cmath
 print ('Usage: python3 measResp.py fileNameNoExtension')
 
 # initialize global setup
-fName = 'acBridge'
+fName = 'acMeasure'
 theTree = {
-    'fileName': fName,      # file name, no extension
-    'amplL1': 28000,        # max sample value first left
-    'amplR1': 28000,        # max sample value first right
-    'amplL2': 28000,        # max sample value second left
-    'amplR2': 28000,        # max sample value second right
-    'halfPiOffset': 123,    # samples per quarter wavelength
+    'halfPiOffset': 69,     # samples per quarter wavelength
     'sampleRate': 44100,    # samples per second
-    'startDelay': 0         # samples before first burst
+    'imbalance': 0.99809    # input channel balance L/R
     }
 
 # check for command line arg
@@ -30,12 +25,12 @@ if 1 < len(sys.argv): fName = sys.argv[1]
 
 # try to load setup file
 try:
-    with open (fName + '.stim', 'r') as setupFile:
+    with open (fName + '.json', 'r') as setupFile:
         aTree = json.load (setupFile)
         if aTree: theTree.update (aTree)
-        print ("Loading setup file '{}.stim'".format (fName))
+        print ("Loading setup file '{}.json'".format (fName))
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
-    print ("Failed to load setup file '{}.stim'".format (fName))
+    print ("Failed to load setup file '{}.json'".format (fName))
     print (e)
 
 '''
@@ -45,19 +40,14 @@ adjusted so each burst contains complete cycles.
 '''
 
 # fill in the details
-fName = theTree ['fileName']
-amplL1 = theTree ['amplL1']
-amplR1 = theTree ['amplR1']
-amplL2 = theTree ['amplL2']
-amplR2 = theTree ['amplR2']
 offs = theTree ['halfPiOffset']
 sampRate = theTree ['sampleRate']
+imbal = theTree ['imbalance']
 theTree ['samplesPerCycle'] = nSamp = 4 * offs
 hertz = sampRate / nSamp
 theTree ['frequency'] = round (hertz, 2)
 theTree ['cyclesPerBurst'] = nCycle = int (hertz / 2)
 incr = 2.0 * math.pi / nSamp
-# delay = theTree ['startDelay']
 print (json.dumps(theTree, indent = 2))
 
 '''
@@ -101,8 +91,8 @@ realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
 realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
 # normalize
-imagPartL *= -2 / burstLength
-realPartL *=  2 / burstLength
+imagPartL *= -2 / burstLength / imbal
+realPartL *=  2 / burstLength / imbal
 firstL = complex (realPartL, imagPartL)
 
 imagPartR *= -2 / burstLength
@@ -126,8 +116,8 @@ realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
 realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
 # normalize
-imagPartL *= -2 / burstLength
-realPartL *=  2 / burstLength
+imagPartL *= -2 / burstLength / imbal
+realPartL *=  2 / burstLength / imbal
 silentL = complex (realPartL, imagPartL)
 
 imagPartR *= -2 / burstLength
@@ -151,8 +141,8 @@ realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
 realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
 # normalize
-imagPartL *= -2 / burstLength
-realPartL *=  2 / burstLength
+imagPartL *= -2 / burstLength / imbal
+realPartL *=  2 / burstLength / imbal
 secondL = complex (realPartL, imagPartL)
 
 imagPartR *= -2 / burstLength
@@ -162,8 +152,12 @@ secondR = complex (realPartR, imagPartR)
 toUpdate = {'secondBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
 theTree.update (toUpdate)
 
+# do some calculations
+print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
+print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
+
 # create setup file, overwrite previous
-print ("Writing setup file '{}.resp'".format (fName))
-with open(fName + '.resp', 'w') as jFile:
+print ("Writing setup file '{}.json'".format (fName))
+with open(fName + '.json', 'w') as jFile:
         json.dump(theTree, jFile, indent = 2)
         jFile.write('\n')

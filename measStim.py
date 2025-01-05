@@ -13,14 +13,14 @@ print ('Useage: python3 measStim.py fileNameNoExtension')
 # initialize global setup
 fName = 'acBridge'
 theTree = {
-    'fileName': fName,      # file name, no extension
     'amplL1': 28000,        # max sample value first left
     'amplR1': 28000,        # max sample value first right
     'amplL2': 28000,        # max sample value second left
     'amplR2': 28000,        # max sample value second right
-    'halfPiOffset': 123,    # samples per quarter wavelength
+    'halfPiOffset': 69,     # samples per quarter wavelength
     'sampleRate': 44100,    # samples per second
-    'startDelay': 0         # samples before first burst
+    'imbalance': 0.99712,   # output channel balance L/R
+    'startDelay': 4410      # samples before first burst
     }
 
 # check for command line arg
@@ -28,12 +28,12 @@ if 1 < len(sys.argv): fName = sys.argv[1]
 
 # try to load setup file
 try:
-    with open (fName + '.stim', 'r') as setupFile:
+    with open (fName + '.json', 'r') as setupFile:
         aTree = json.load (setupFile)
         if aTree: theTree.update (aTree)
-        print ("Loading setup file '{}.stim'".format (fName))
+        print ("Loading setup file '{}.json'".format (fName))
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
-    print ("Failed to load setup file '{}.stim'".format (fName))
+    print ("Failed to load setup file '{}.json'".format (fName))
     print (e)
 
 '''
@@ -43,13 +43,13 @@ adjusted so each burst contains complete cycles.
 '''
 
 # fill in the details
-fName = theTree ['fileName']
 amplL1 = theTree ['amplL1']
 amplR1 = theTree ['amplR1']
 amplL2 = theTree ['amplL2']
 amplR2 = theTree ['amplR2']
 offs = theTree ['halfPiOffset']
 sampRate = theTree ['sampleRate']
+imbal = theTree ['imbalance']
 theTree ['samplesPerCycle'] = nSamp = 4 * offs
 hertz = sampRate / nSamp
 theTree ['frequency'] = round (hertz, 2)
@@ -85,7 +85,8 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
     # write two bursts to left channel
     aCycle = bytearray ()
     for n in range (nSamp):
-        aSample = struct.pack ('<hh', round (amplL1 * theCycle [n]), round (amplR1 * theCycle [n]))
+        aSample = struct.pack ('<hh', round (amplL1 * theCycle [n]),
+            round (amplR1 * theCycle [n] * imbal))
         aCycle.extend (aSample)
     for n in range (nCycle):
         waveFile.writeframes (aCycle)
@@ -105,7 +106,8 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
     # write two bursts to right channel
     aCycle = bytearray ()
     for n in range (nSamp):
-        aSample = struct.pack ('<hh', round (amplL2 * theCycle [n]), round (amplR2 * theCycle [n]))
+        aSample = struct.pack ('<hh', round (amplL2 * theCycle [n]),
+            round (amplR2 * theCycle [n] * imbal))
         aCycle.extend (aSample)
     for n in range (nCycle):
         waveFile.writeframes (aCycle)
@@ -113,7 +115,7 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         waveFile.writeframes (aCycle)
 
 # create setup file, overwrite previous
-print ("Writing setup file '{}.stim'".format (fName))
-with open(fName + '.stim', 'w') as jFile:
+print ("Writing setup file '{}.json'".format (fName))
+with open(fName + '.json', 'w') as jFile:
         json.dump(theTree, jFile, indent = 2)
         jFile.write('\n')

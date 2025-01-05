@@ -1,0 +1,13 @@
+{
+  "amplL1": 28000,
+  "amplR1": 0,
+  "amplL2": 0,
+  "amplR2": 28000,
+  "halfPiOffset": 110,
+  "sampleRate": 44100,
+  "imbalance": 0.99712,
+  "startDelay": 4410,
+  "samplesPerCycle": 440,
+  "frequency": 100.23,
+  "cyclesPerBurst": 50
+}
