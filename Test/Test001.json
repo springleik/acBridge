@@ -1,0 +1,10 @@
+{
+  "halfPiOffset": 441,
+  "sampleRate": 44100,
+  "imbalance": 1.0,
+  "amplL1": 16000,
+  "amplR1": 0,
+  "amplL2": 0,
+  "amplR2": 0,
+  "startDelay": 0
+}
