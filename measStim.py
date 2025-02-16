@@ -12,14 +12,14 @@ print ('Useage: python3 measStim.py fileNameNoExtension')
 
 # initialize setup
 def initializeDetails (aMeas):
-    aMeas.setdefault ('amplL1', 28000)      # max sample value first left
-    aMeas.setdefault ('amplR1', 28000)      # max sample value first right
-    aMeas.setdefault ('amplL2', 28000)      # max sample value second left
-    aMeas.setdefault ('amplR2', 28000)      # max sample value second right
-    aMeas.setdefault ('sampleRate', 44100)  # samples per second
-    aMeas.setdefault ('imbalance', 0.99712) # output channel balance L/R
-    aMeas.setdefault ('requestFreq', 100.0) # requested frequency
-    aMeas.setdefault ('startDelay', 4410)   # samples before first burst
+    aMeas.setdefault ('amplL1', 28000)          # max sample value first left
+    aMeas.setdefault ('amplR1', 28000)          # max sample value first right
+    aMeas.setdefault ('amplL2', 28000)          # max sample value second left
+    aMeas.setdefault ('amplR2', 28000)          # max sample value second right
+    aMeas.setdefault ('sampleRate', 44100)      # samples per second
+    aMeas.setdefault ('imbalanceOut', 0.99712)  # output channel balance L/R
+    aMeas.setdefault ('requestFreq', 100.0)     # requested frequency
+    aMeas.setdefault ('startDelay', 4410)       # samples before first burst
 
 theTree = {}
 initializeDetails (theTree)
@@ -39,7 +39,7 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 
 '''
 Given a sample rate and requested frequency, compute the number of
-quarter waves per cell, samples per cell, and actual frequency.
+samples per cell, cycles per four cells, and actual frequency.
 Where a cell is at most 1/8 second, and each cell contains full
 waves plus one 1/4 wave.
 '''
@@ -88,11 +88,11 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         ampL2 = theMeas ['amplL2']
         ampR1 = theMeas ['amplR1']
         ampR2 = theMeas ['amplR2']
+        imbal = theMeas ['imbalanceOut']
         cellSamp = theMeas ['cellSamples']
         countWave = theMeas ['countWaves']
         burstSamp = cellSamp * 4
         incr = 2.0 * math.pi * countWave / 4.0 / cellSamp
-        imbal = theMeas ['imbalance']
 
         # write silent startup delay
         aCycle = bytearray (struct.pack ('<hh', 0, 0))

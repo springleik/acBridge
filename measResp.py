@@ -10,43 +10,30 @@ M. Williamsen, 14 February 2025
 import wave, math, struct, json, sys, cmath
 print ('Usage: python3 measResp.py fileNameNoExtension')
 
-# initialize global setup
-fName = 'acMeasure'
-theTree = {
-    'halfPiOffset': 69,     # samples per quarter wavelength
-    'sampleRate': 44100,    # samples per second
-    'imbalance': 0.99809    # input channel balance L/R
-    }
+# initialize setup
+def initializeDetails (aMeas):
+    aMeas.setdefault ('sampleRate', 44100)      # samples per second
+    aMeas.setdefault ('cellSamples', 5402)      # samples per cell
+    aMeas.setdefault ('countWaves', 49)         # cycles per four cells
+    aMeas.setdefault ('imbalanceIn', 0.99712)   # output channel balance L/R
+    aMeas.setdefault ('startDelay', 4410)       # samples before first burst
+
+theTree = {}
+initializeDetails (theTree)
 
 # check for command line arg
+fName = 'acBridge'
 if 1 < len(sys.argv): fName = sys.argv[1]
 
 # try to load setup file
 try:
     with open (fName + '.json', 'r') as setupFile:
-        aTree = json.load (setupFile)
-        if aTree: theTree.update (aTree)
+        theTree = json.load (setupFile)
         print ("Loading setup file '{}.json'".format (fName))
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
     print ("Failed to load setup file '{}.json'".format (fName))
     print (e)
 
-'''
-Given a sample rate and the samples per quarter wavelength,
-compute the samples per cycle, frequency, and cycles per burst
-adjusted so each burst contains complete cycles.
-'''
-
-# fill in the details
-offs = theTree ['halfPiOffset']
-sampRate = theTree ['sampleRate']
-imbal = theTree ['imbalance']
-theTree ['samplesPerCycle'] = nSamp = 4 * offs
-hertz = sampRate / nSamp
-theTree ['frequency'] = round (hertz, 2)
-theTree ['cyclesPerBurst'] = nCycle = int (hertz / 2)
-incr = 2.0 * math.pi / nSamp
-print (json.dumps(theTree, indent = 2))
 
 '''
 Bursts are approximately 1/2 second in length, doubled up
