@@ -1,0 +1,54 @@
+[
+  {
+    "sampleRate": 44100,
+    "imbalance": 0.99712,
+    "requestFreq": 10.0,
+    "amplL1": 28000,
+    "amplR1": 28000,
+    "amplL2": 28000,
+    "amplR2": 28000,
+    "startDelay": 4410,
+    "actualFreq": 10.0,
+    "cellSamples": 5512,
+    "countWaves": 5
+  },
+  {
+    "sampleRate": 44100,
+    "imbalance": 0.99712,
+    "requestFreq": 100.0,
+    "amplL1": 28000,
+    "amplR1": 28000,
+    "amplL2": 28000,
+    "amplR2": 28000,
+    "startDelay": 4410,
+    "actualFreq": 100.0,
+    "cellSamples": 5402,
+    "countWaves": 49
+  },
+  {
+    "sampleRate": 44100,
+    "imbalance": 0.99712,
+    "requestFreq": 1000.0,
+    "amplL1": 28000,
+    "amplR1": 28000,
+    "amplL2": 28000,
+    "amplR2": 28000,
+    "startDelay": 4410,
+    "actualFreq": 1000.08,
+    "cellSamples": 5479,
+    "countWaves": 497
+  },
+  {
+    "sampleRate": 44100,
+    "imbalance": 0.99712,
+    "requestFreq": 10000.0,
+    "amplL1": 28000,
+    "amplR1": 28000,
+    "amplL2": 28000,
+    "amplR2": 28000,
+    "startDelay": 4410,
+    "actualFreq": 10000.35,
+    "cellSamples": 5509,
+    "countWaves": 4997
+  }
+]

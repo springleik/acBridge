@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 '''
 Python script to measure the ratio between two impedances
-using a gated toneburst technique. Analyzes a response file
-on local mass storage. Assumes the response file has been
-created by another program with a matching stimulus file.
-M. Williamsen, 1 January 2025
+using a gated toneburst technique. Analyzes a response wave
+file on local mass storage. Assumes the response wave file has
+been created by another program with a matching stimulus file.
+M. Williamsen, 14 February 2025
 '''
 
-import wave, math, struct, json, sys
-import cmath
-
+import wave, math, struct, json, sys, cmath
 print ('Usage: python3 measResp.py fileNameNoExtension')
 
 # initialize global setup
