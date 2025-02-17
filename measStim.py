@@ -17,7 +17,7 @@ def initializeDetails (aMeas):
     aMeas.setdefault ('amplL2', 28000)          # max sample value second left
     aMeas.setdefault ('amplR2', 28000)          # max sample value second right
     aMeas.setdefault ('sampleRate', 44100)      # samples per second
-    aMeas.setdefault ('imbalanceOut', 0.99712)  # output channel balance L/R
+    aMeas.setdefault ('imbalanceOut', 1.0)      # output channel balance L/R
     aMeas.setdefault ('requestFreq', 100.0)     # requested frequency
     aMeas.setdefault ('startDelay', 4410)       # samples before first burst
 

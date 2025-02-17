@@ -15,7 +15,7 @@ def initializeDetails (aMeas):
     aMeas.setdefault ('sampleRate', 44100)      # samples per second
     aMeas.setdefault ('cellSamples', 5402)      # samples per cell
     aMeas.setdefault ('countWaves', 49)         # cycles per four cells
-    aMeas.setdefault ('imbalanceIn', 0.99712)   # output channel balance L/R
+    aMeas.setdefault ('imbalanceIn', 1.0)       # output channel balance L/R
     aMeas.setdefault ('startDelay', 4410)       # samples before first burst
 
 theTree = {}
@@ -160,7 +160,7 @@ for theMeas in theTree:
 
     # point to next burst
     datum += burstSamp
-    
+
 # create setup file, overwrite previous
 print ("Writing setup file '{}.json'".format (fName))
 with open(fName + '.json', 'w') as jFile:
