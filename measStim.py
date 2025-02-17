@@ -28,7 +28,7 @@ initializeDetails (theTree)
 fName = 'acBridge'
 if 1 < len(sys.argv): fName = sys.argv[1]
 
-# try to load setup file
+# load setup file
 try:
     with open (fName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
@@ -39,9 +39,9 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 
 '''
 Given a sample rate and requested frequency, compute the number of
-samples per cell, cycles per four cells, and actual frequency.
-Where a cell is at most 1/8 second, and each cell contains full
-waves plus one 1/4 wave.
+samples per cell, cycles in four cells, and actual frequency.
+Where a cell is at most 1/8 second, and four cells contain full
+waves.
 '''
 
 # fill in the details for each measurement
@@ -81,6 +81,7 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
     waveFile.setnchannels (2)   # channels per sample
     sampRate = theTree [0]['sampleRate']
     waveFile.setframerate (sampRate)
+    # iterate over measurements
     for theMeas in theTree:
         # gather details for each measurement
         delay = theMeas ['startDelay']

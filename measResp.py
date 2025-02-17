@@ -25,7 +25,7 @@ initializeDetails (theTree)
 fName = 'acBridge'
 if 1 < len(sys.argv): fName = sys.argv[1]
 
-# try to load setup file
+# load setup file
 try:
     with open (fName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
@@ -34,112 +34,129 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
     print ("Failed to load setup file '{}.json'".format (fName))
     print (e)
 
-
 '''
 Bursts are approximately 1/2 second in length, doubled up
 so the stimulus file contains about one second of left channel
 excitation, one second of silence, and one second of right
-channel excitation. The total file length will be about three
-seconds, slightly more than 1/2 megabyte on disk.
+channel excitation. The total measurement length will be about
+three seconds, slightly more than 1/2 megabyte on disk.
 '''
 
 # read response file
-print ("Reading wave file '{}.wav'.".format (fName))
+print ("Reading wave file '{}.wav'".format (fName))
 waveFile = wave.open(fName + '.wav', 'rb')
-theParams = waveFile.getparams ()
 print ('Wave file parameters:')
+theParams = waveFile.getparams ()
 print (json.dumps (theParams._asdict (), indent = 2))
-
-# compute burst length in frames
-burstLength = nSamp * nCycle
-expectFrames = burstLength * 2 * 3
 actualFrames = getattr (theParams, 'nframes')
+
+# add up burst lengths in units of frames
+expectFrames = 0
+for theMeas in theTree:
+    initializeDetails (theMeas)
+    expectFrames += (theMeas ['cellSamples'] * 3 * 8) + theMeas ['startDelay']
 print ('Expected {} frames, found {}'.format (expectFrames, actualFrames))
 if actualFrames < expectFrames:
     print ('Done, not enough frames in response file!')
     quit ()
 
-# compute reference vector
-refVec = [math.cos ((n + 0.5) * incr) for n in range (burstLength)]
+print (theTree)
 
-# analyze first response burst
-waveFile.setpos (burstLength - offs)
-sinBytes = waveFile.readframes (burstLength)
-sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+# iterate over measurements
+datum = 0
+for theMeas in theTree:
+    # gather details for each measurement
+    delay = theMeas ['startDelay']
+    imbal = theMeas ['imbalanceIn']
+    cellSamp = theMeas ['cellSamples']
+    countWave = theMeas ['countWaves']
+    burstSamp = cellSamp * 4
+    incr = 2.0 * math.pi * countWave / 4.0 / cellSamp
 
-waveFile.setpos (burstLength)
-cosBytes = waveFile.readframes (burstLength)
-cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
-realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
-realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
+    # compute a reference vector
+    refVec = [math.sin ((n + 0.5) * incr) for n in range (burstSamp)]
 
-# normalize
-imagPartL *= -2 / burstLength / imbal
-realPartL *=  2 / burstLength / imbal
-firstL = complex (realPartL, imagPartL)
+    # analyze first response burst
+    datum += delay + burstSamp
+    waveFile.setpos (datum - cellSamp)
+    sinBytes = waveFile.readframes (burstSamp)
+    sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
+    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
+    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
 
-imagPartR *= -2 / burstLength
-realPartR *=  2 / burstLength
-firstR = complex (realPartR, imagPartR)
+    waveFile.setpos (datum)
+    cosBytes = waveFile.readframes (burstSamp)
+    cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
+    realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
+    realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
-toUpdate = {'firstBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
-theTree.update (toUpdate)
+    # normalize
+    imagPartL *= -2 / burstSamp / imbal
+    realPartL *=  2 / burstSamp / imbal
+    firstL = complex (realPartL, imagPartL)
 
-# analyze silent gap
-waveFile.setpos (3 * burstLength - offs)
-sinBytes = waveFile.readframes (burstLength)
-sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+    imagPartR *= -2 / burstSamp
+    realPartR *=  2 / burstSamp
+    firstR = complex (realPartR, imagPartR)
 
-waveFile.setpos (3 * burstLength)
-cosBytes = waveFile.readframes (burstLength)
-cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
-realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
-realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
+    toUpdate = {'firstBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
+    theMeas.update (toUpdate)
 
-# normalize
-imagPartL *= -2 / burstLength / imbal
-realPartL *=  2 / burstLength / imbal
-silentL = complex (realPartL, imagPartL)
+    # analyze silent gap
+    datum += burstSamp
+    waveFile.setpos (datum - cellSamp)
+    sinBytes = waveFile.readframes (burstSamp)
+    sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
+    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
+    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
 
-imagPartR *= -2 / burstLength
-realPartR *=  2 / burstLength
-silentR = complex (realPartR, imagPartR)
+    waveFile.setpos (datum)
+    cosBytes = waveFile.readframes (burstSamp)
+    cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
+    realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
+    realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
-toUpdate = {'silentBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
-theTree.update (toUpdate)
+    # normalize
+    imagPartL *= -2 / burstSamp / imbal
+    realPartL *=  2 / burstSamp / imbal
+    silentL = complex (realPartL, imagPartL)
 
-# analyze second response burst
-waveFile.setpos (5 * burstLength - offs)
-sinBytes = waveFile.readframes (burstLength)
-sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+    imagPartR *= -2 / burstSamp
+    realPartR *=  2 / burstSamp
+    silentR = complex (realPartR, imagPartR)
 
-waveFile.setpos (5 * burstLength)
-cosBytes = waveFile.readframes (burstLength)
-cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
-realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
-realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
+    toUpdate = {'silentBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
+    theMeas.update (toUpdate)
 
-# normalize
-imagPartL *= -2 / burstLength / imbal
-realPartL *=  2 / burstLength / imbal
-secondL = complex (realPartL, imagPartL)
+    # analyze second response burst
+    datum += burstSamp
+    waveFile.setpos (datum - cellSamp)
+    sinBytes = waveFile.readframes (burstSamp)
+    sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
+    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
+    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
 
-imagPartR *= -2 / burstLength
-realPartR *=  2 / burstLength
-secondR = complex (realPartR, imagPartR)
+    waveFile.setpos (datum)
+    cosBytes = waveFile.readframes (burstSamp)
+    cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
+    realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
+    realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
 
-toUpdate = {'secondBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
-theTree.update (toUpdate)
+    # normalize
+    imagPartL *= -2 / burstSamp / imbal
+    realPartL *=  2 / burstSamp / imbal
+    secondL = complex (realPartL, imagPartL)
 
-# do some calculations
-print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
-print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
+    imagPartR *= -2 / burstSamp
+    realPartR *=  2 / burstSamp
+    secondR = complex (realPartR, imagPartR)
+
+    toUpdate = {'secondBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
+    theMeas.update (toUpdate)
+
+    # do some calculations
+    # print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
+    # print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
 
 # create setup file, overwrite previous
 print ("Writing setup file '{}.json'".format (fName))

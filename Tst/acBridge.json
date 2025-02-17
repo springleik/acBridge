@@ -1,0 +1,14 @@
+[
+  {
+    "requestFreq": 10.0
+  },
+  {
+    "requestFreq": 100.0
+  },
+  {
+    "requestFreq": 1000.0
+  },
+  {
+    "requestFreq": 10000.0
+  }
+]
