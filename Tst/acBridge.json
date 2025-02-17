@@ -1,14 +1,22 @@
 [
   {
-    "requestFreq": 10.0
+    "requestFreq": 10.0,
+    "imbalanceIn": 0.998185,
+    "imbalanceOut": 1.00294
   },
   {
-    "requestFreq": 100.0
+    "requestFreq": 100.0,
+    "imbalanceIn": 0.998185,
+    "imbalanceOut": 1.00291
   },
   {
-    "requestFreq": 1000.0
+    "requestFreq": 1000.0,
+    "imbalanceIn": 0.998185,
+    "imbalanceOut": 1.00290
   },
   {
-    "requestFreq": 10000.0
+    "requestFreq": 10000.0,
+    "imbalanceIn": 0.998195,
+    "imbalanceOut": 1.002935
   }
 ]

@@ -110,7 +110,7 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             aSample = struct.pack ('<hh', round (ampL1 * theCycle [n]),
-                round (ampR1 * theCycle [n] * imbal))
+                round (ampR1 * theCycle [n] / imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)
@@ -129,7 +129,7 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             aSample = struct.pack ('<hh', round (ampL2 * theCycle [n]),
-                round (ampR2 * theCycle [n] * imbal))
+                round (ampR2 * theCycle [n] / imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)
