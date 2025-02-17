@@ -103,7 +103,7 @@ for theMeas in theTree:
     theMeas.update (toUpdate)
 
     # analyze silent gap
-    datum += burstSamp
+    datum += 2 * burstSamp
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
@@ -129,7 +129,7 @@ for theMeas in theTree:
     theMeas.update (toUpdate)
 
     # analyze second response burst
-    datum += burstSamp
+    datum += 2 * burstSamp
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
@@ -155,9 +155,12 @@ for theMeas in theTree:
     theMeas.update (toUpdate)
 
     # do some calculations
-    # print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
-    # print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
+    print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
+    print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
 
+    # point to next burst
+    datum += burstSamp
+    
 # create setup file, overwrite previous
 print ("Writing setup file '{}.json'".format (fName))
 with open(fName + '.json', 'w') as jFile:

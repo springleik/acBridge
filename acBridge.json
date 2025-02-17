@@ -1,54 +1,178 @@
 [
   {
-    "sampleRate": 44100,
-    "imbalance": 0.99712,
     "requestFreq": 10.0,
     "amplL1": 28000,
     "amplR1": 28000,
     "amplL2": 28000,
     "amplR2": 28000,
+    "sampleRate": 44100,
+    "imbalanceOut": 0.99712,
     "startDelay": 4410,
     "actualFreq": 10.0,
     "cellSamples": 5512,
-    "countWaves": 5
+    "countWaves": 5,
+    "imbalanceIn": 0.99712,
+    "firstBurst": {
+      "left": [
+        28080.88162083313,
+        1.311554134814914e-12
+      ],
+      "right": [
+        27919.364311038804,
+        1.2893797463360014e-12
+      ]
+    },
+    "silentBurst": {
+      "left": [
+        0.0,
+        -0.0
+      ],
+      "right": [
+        0.0,
+        -0.0
+      ]
+    },
+    "secondBurst": {
+      "left": [
+        28080.88162083313,
+        1.311554134814914e-12
+      ],
+      "right": [
+        27919.364311038804,
+        1.2893797463360014e-12
+      ]
+    }
   },
   {
-    "sampleRate": 44100,
-    "imbalance": 0.99712,
     "requestFreq": 100.0,
     "amplL1": 28000,
     "amplR1": 28000,
     "amplL2": 28000,
     "amplR2": 28000,
+    "sampleRate": 44100,
+    "imbalanceOut": 0.99712,
     "startDelay": 4410,
     "actualFreq": 100.0,
     "cellSamples": 5402,
-    "countWaves": 49
+    "countWaves": 49,
+    "imbalanceIn": 0.99712,
+    "firstBurst": {
+      "left": [
+        28080.882897074993,
+        -7.0873792487303e-10
+      ],
+      "right": [
+        27919.354374895567,
+        -7.046515334289188e-10
+      ]
+    },
+    "silentBurst": {
+      "left": [
+        0.0,
+        -0.0
+      ],
+      "right": [
+        0.0,
+        -0.0
+      ]
+    },
+    "secondBurst": {
+      "left": [
+        28080.882897074993,
+        -7.0873792487303e-10
+      ],
+      "right": [
+        27919.354374895567,
+        -7.046515334289188e-10
+      ]
+    }
   },
   {
-    "sampleRate": 44100,
-    "imbalance": 0.99712,
     "requestFreq": 1000.0,
     "amplL1": 28000,
     "amplR1": 28000,
     "amplL2": 28000,
     "amplR2": 28000,
+    "sampleRate": 44100,
+    "imbalanceOut": 0.99712,
     "startDelay": 4410,
     "actualFreq": 1000.08,
     "cellSamples": 5479,
-    "countWaves": 497
+    "countWaves": 497,
+    "imbalanceIn": 0.99712,
+    "firstBurst": {
+      "left": [
+        28080.873407836294,
+        -2.7434191300805385e-09
+      ],
+      "right": [
+        27919.35944848841,
+        -2.7276407627665767e-09
+      ]
+    },
+    "silentBurst": {
+      "left": [
+        0.0,
+        -0.0
+      ],
+      "right": [
+        0.0,
+        -0.0
+      ]
+    },
+    "secondBurst": {
+      "left": [
+        28080.873407836294,
+        -2.7434191300805385e-09
+      ],
+      "right": [
+        27919.35944848841,
+        -2.7276407627665767e-09
+      ]
+    }
   },
   {
-    "sampleRate": 44100,
-    "imbalance": 0.99712,
     "requestFreq": 10000.0,
     "amplL1": 28000,
     "amplR1": 28000,
     "amplL2": 28000,
     "amplR2": 28000,
+    "sampleRate": 44100,
+    "imbalanceOut": 0.99712,
     "startDelay": 4410,
     "actualFreq": 10000.35,
     "cellSamples": 5509,
-    "countWaves": 4997
+    "countWaves": 4997,
+    "imbalanceIn": 0.99712,
+    "firstBurst": {
+      "left": [
+        28080.867536096288,
+        -4.1717435213524345e-08
+      ],
+      "right": [
+        27919.36112267558,
+        -4.1477502924212296e-08
+      ]
+    },
+    "silentBurst": {
+      "left": [
+        0.0,
+        -0.0
+      ],
+      "right": [
+        0.0,
+        -0.0
+      ]
+    },
+    "secondBurst": {
+      "left": [
+        28080.867536096288,
+        -4.1717435213524345e-08
+      ],
+      "right": [
+        27919.36112267558,
+        -4.1477502924212296e-08
+      ]
+    }
   }
 ]
