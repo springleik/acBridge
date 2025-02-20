@@ -104,7 +104,8 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         # build four cells of stimulus in memory
         theCycle = [math.sin ((n + 0.5) * incr) for n in range (burstSamp)]
 
-        # TODO add harmonic shaping
+        # add in harmonic shaping
+        # theCycle [:] = [(theCycle [n] - math.sin (2 * (n + 0.5) * incr) / 2) for n in range (burstSamp)]
 
         # write two bursts (eight cells) to left channel
         aCycle = bytearray ()
