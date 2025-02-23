@@ -8,7 +8,6 @@ M. Williamsen, 14 February 2025
 '''
 
 import wave, math, struct, json, sys, cmath
-print ('Usage: python3 measResp.py fileNameNoExtension')
 
 # initialize setup
 def initializeDetails (aMeas):
@@ -16,22 +15,24 @@ def initializeDetails (aMeas):
     aMeas.setdefault ('cellSamples', 5402)      # samples per cell
     aMeas.setdefault ('countWaves', 49)         # cycles per four cells
     aMeas.setdefault ('imbalanceIn', 1.0)       # output channel balance L/R
-    aMeas.setdefault ('startDelay', 4410)       # samples before first burst
-
-theTree = {}
-initializeDetails (theTree)
+    aMeas.setdefault ('startDelay', 44100)      # samples before each burst
 
 # check for command line arg
-fName = 'acBridge'
-if 1 < len(sys.argv): fName = sys.argv[1]
+if len (sys.argv) != 3:
+    print ('Usage: python3 measResp.py inFileNameNoExt outFileNameNoExt')
+    quit ()
+inFileName = sys.argv[1]
+outFileName = sys.argv[2]
 
 # load setup file
+theTree = {}
+initializeDetails (theTree)
 try:
-    with open (fName + '.json', 'r') as setupFile:
+    with open (inFileName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
-        print ("Loading setup file '{}.json'".format (fName))
+        print ("Loading setup file '{}.json'".format (inFileName))
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
-    print ("Failed to load setup file '{}.json'".format (fName))
+    print ("Failed to load setup file '{}.json'".format (inFileName))
     print (e)
 
 '''
@@ -39,12 +40,12 @@ Bursts are approximately 1/2 second in length, doubled up
 so the stimulus file contains about one second of left channel
 excitation, one second of silence, and one second of right
 channel excitation. The total measurement length will be about
-three seconds, slightly more than 1/2 megabyte on disk.
+three seconds, somewhat less than 3/4 megabyte on disk.
 '''
 
 # read response file
-print ("Reading wave file '{}.wav'".format (fName))
-waveFile = wave.open(fName + '.wav', 'rb')
+print ("Reading wave file '{}.wav'".format (inFileName))
+waveFile = wave.open(inFileName + '.wav', 'rb')
 print ('Wave file parameters:')
 theParams = waveFile.getparams ()
 print (json.dumps (theParams._asdict (), indent = 2))
@@ -103,7 +104,7 @@ for theMeas in theTree:
     theMeas.update (toUpdate)
 
     # analyze silent gap
-    datum += 2 * burstSamp
+    datum += delay
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
@@ -161,8 +162,10 @@ for theMeas in theTree:
     # point to next burst
     datum += burstSamp
 
+waveFile.close ()
+
 # create setup file, overwrite previous
-print ("Writing setup file '{}.json'".format (fName))
-with open(fName + '.json', 'w') as jFile:
-        json.dump(theTree, jFile, indent = 2)
-        jFile.write('\n')
+print ("Writing setup file '{}.json'".format (outFileName))
+with open(outFileName + '.json', 'w') as jsonFile:
+        json.dump(theTree, jsonFile, indent = 2)
+        jsonFile.write('\n')

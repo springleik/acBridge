@@ -8,34 +8,34 @@ M. Williamsen, 14 February 2025
 '''
 
 import wave, math, struct, json, sys
-print ('Useage: python3 measStim.py fileNameNoExtension')
+
+# check for command line args
+if len (sys.argv) != 3:
+    print ('Useage: python3 measStim.py inFileNameNoExt outFileNameNoExt')
+    quit ()
+inFileName = sys.argv[1]    # setup for creating stimulus file
+outFileName = sys.argv[2]   # setup for analyzing response file
+
+# load setup file
+theTree = {}
+try:
+    with open (inFileName + '.json', 'r') as setupFile:
+        theTree = json.load (setupFile)
+        print ("Loading setup file '{}.json'".format (inFileName))
+except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
+    print ("Failed to load setup file '{}.json'".format (inFileName))
+    print (e)
 
 # initialize setup
 def initializeDetails (aMeas):
-    aMeas.setdefault ('amplL1', 28000)          # max sample value first left
-    aMeas.setdefault ('amplR1', 28000)          # max sample value first right
-    aMeas.setdefault ('amplL2', 28000)          # max sample value second left
-    aMeas.setdefault ('amplR2', 28000)          # max sample value second right
-    aMeas.setdefault ('sampleRate', 44100)      # samples per second
-    aMeas.setdefault ('imbalanceOut', 1.0)      # output channel balance L/R
+    aMeas.setdefault ('amplL1', 20000)          # max sample value first left
+    aMeas.setdefault ('amplR1', 20000)          # max sample value first right
+    aMeas.setdefault ('amplL2', 20000)          # max sample value second left
+    aMeas.setdefault ('amplR2', 20000)          # max sample value second right
     aMeas.setdefault ('requestFreq', 100.0)     # requested frequency
-    aMeas.setdefault ('startDelay', 4410)       # samples before first burst
-
-theTree = {}
-initializeDetails (theTree)
-
-# check for command line arg
-fName = 'acBridge'
-if 1 < len(sys.argv): fName = sys.argv[1]
-
-# load setup file
-try:
-    with open (fName + '.json', 'r') as setupFile:
-        theTree = json.load (setupFile)
-        print ("Loading setup file '{}.json'".format (fName))
-except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
-    print ("Failed to load setup file '{}.json'".format (fName))
-    print (e)
+    aMeas.setdefault ('sampleRate', 44100)      # samples per second
+    aMeas.setdefault ('startDelay', 44100)      # silence before each burst
+    aMeas.setdefault ('imbalanceOut', 1.0)      # output channel balance L/R
 
 '''
 Given a sample rate and requested frequency, compute the number of
@@ -68,15 +68,15 @@ print (json.dumps(theTree, indent = 2))
 
 '''
 Bursts are approximately 1/2 second in length, doubled up
-so the stimulus file contains up to one second of left channel
-excitation, one second of silence, and one second of right
-channel excitation. The total measurement length will be about 3
-seconds, slightly more than 1/2 megabyte on disk.
+so the stimulus file contains silence followed by up to one
+second of left channel excitation, more silence, then one second
+of right channel excitation. The total measurement length will
+be about 4 seconds, somewhat less than 3/4 megabyte on disk.
 '''
 
-# create stimulus file, overwrite previous
+# create stimulus file, overwrite existing file if any
 byteCount = 0
-with wave.open(fName + '.wav', 'wb') as waveFile:
+with wave.open(inFileName + '.wav', 'wb') as waveFile:
     waveFile.setsampwidth (2)   # bytes per channel
     waveFile.setnchannels (2)   # channels per sample
     sampRate = theTree [0]['sampleRate']
@@ -95,17 +95,16 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
         burstSamp = cellSamp * 4
         incr = 2.0 * math.pi * countWave / 4.0 / cellSamp
 
-        # write silent startup delay
-        aCycle = bytearray (struct.pack ('<hh', 0, 0))
-        for n in range (delay):
-            waveFile.writeframes (aCycle)
-            byteCount += len (aCycle)
-
         # build four cells of stimulus in memory
         theCycle = [math.sin ((n + 0.5) * incr) for n in range (burstSamp)]
 
-        # add in harmonic shaping
+        # optionally add in harmonic shaping
         # theCycle [:] = [(theCycle [n] - math.sin (2 * (n + 0.5) * incr) / 2) for n in range (burstSamp)]
+
+        # write silent startup delay, 4 bytes per frame
+        aCycle = bytearray (4 * delay)
+        waveFile.writeframes (aCycle)
+        byteCount += len (aCycle)
 
         # write two bursts (eight cells) to left channel
         aCycle = bytearray ()
@@ -117,14 +116,10 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
             waveFile.writeframes (aCycle)
             byteCount += len (aCycle)
 
-        # write two bursts of silence
-        aCycle = bytearray ()
-        for n in range (burstSamp):
-            aSample = struct.pack ('<hh', 0, 0)
-            aCycle.extend (aSample)
-        for n in range (2):
-            waveFile.writeframes (aCycle)
-            byteCount += len (aCycle)
+        # write another silent delay
+        aCycle = bytearray (4 * delay)
+        waveFile.writeframes (aCycle)
+        byteCount += len (aCycle)
 
         # write two bursts to right channel
         aCycle = bytearray ()
@@ -137,11 +132,10 @@ with wave.open(fName + '.wav', 'wb') as waveFile:
             byteCount += len (aCycle)
 
 # report success
-print ("Wrote wave file '{}.wav' with {} bytes of data"
-    .format (fName, byteCount))
+print ("Wrote wave file '{}.wav' with {} bytes of data".format (inFileName, byteCount))
 
-# create setup file, overwrite previous
-print ("Writing setup file '{}.json'".format (fName))
-with open(fName + '.json', 'w') as jFile:
-        json.dump(theTree, jFile, indent = 2)
-        jFile.write('\n')
+# create setup file with decorated tree, overwrite existing file if any
+print ("Writing setup file '{}.json'".format (outFileName))
+with open(outFileName + '.json', 'w') as jsonFile:
+        json.dump(theTree, jsonFile, indent = 2)
+        jsonFile.write('\n')
