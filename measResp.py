@@ -25,8 +25,7 @@ inFileName = sys.argv[1]
 outFileName = sys.argv[2]
 
 # load setup file
-theTree = {}
-initializeDetails (theTree)
+theTree = [{}]
 try:
     with open (inFileName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
@@ -34,6 +33,7 @@ try:
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
     print ("Failed to load setup file '{}.json'".format (inFileName))
     print (e)
+    quit ()
 
 '''
 Bursts are approximately 1/2 second in length, doubled up
@@ -55,12 +55,11 @@ actualFrames = getattr (theParams, 'nframes')
 expectFrames = 0
 for theMeas in theTree:
     initializeDetails (theMeas)
-    expectFrames += (theMeas ['cellSamples'] * 3 * 8) + theMeas ['startDelay']
+    expectFrames += 2 * ((theMeas ['cellSamples'] * 8) + theMeas ['startDelay'])
 print ('Expected {} frames, found {}'.format (expectFrames, actualFrames))
 if actualFrames < expectFrames:
     print ('Done, not enough frames in response file!')
     quit ()
-
 print (theTree)
 
 # iterate over measurements
@@ -159,7 +158,7 @@ for theMeas in theTree:
     print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
     print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
 
-    # point to next burst
+    # move to end of second burst
     datum += burstSamp
 
 waveFile.close ()

@@ -17,7 +17,7 @@ inFileName = sys.argv[1]    # setup for creating stimulus file
 outFileName = sys.argv[2]   # setup for analyzing response file
 
 # load setup file
-theTree = {}
+theTree = [{}]
 try:
     with open (inFileName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
@@ -110,7 +110,7 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             aSample = struct.pack ('<hh', round (ampL1 * theCycle [n]),
-                round (ampR1 * theCycle [n] / imbal))
+                round (ampR1 * theCycle [n] * imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)
@@ -125,7 +125,7 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             aSample = struct.pack ('<hh', round (ampL2 * theCycle [n]),
-                round (ampR2 * theCycle [n] / imbal))
+                round (ampR2 * theCycle [n] * imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)

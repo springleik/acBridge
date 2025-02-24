@@ -1,14 +1,26 @@
 [
   {
+    "imbalanceOut": 0.9955348868754702,
+    "imbalanceIn": 0.99967527610674,
+    "startDelay": 441000,
     "requestFreq": 10.0
   },
   {
+    "imbalanceOut": 0.9956204681822577,
+    "imbalanceIn": 0.9996327928773279,
+    "startDelay": 441000,
     "requestFreq": 100.0
   },
   {
+    "imbalanceOut": 0.9955856971176348,
+    "imbalanceIn": 0.9996672016312452,
+    "startDelay": 441000,
     "requestFreq": 1000.0
   },
   {
+    "imbalanceOut": 0.9960975509176455,
+    "imbalanceIn": 0.9991296058294216,
+    "startDelay": 441000,
     "requestFreq": 10000.0
   }
 ]
