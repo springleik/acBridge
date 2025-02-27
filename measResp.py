@@ -62,6 +62,10 @@ if actualFrames < expectFrames:
     quit ()
 print (theTree)
 
+# perform dot product over two vectors
+def innerProduct (vec1, vec2) -> float:
+    return sum ([x * y for (x,y) in zip (vec1, vec2)])
+
 # iterate over measurements
 datum = 0
 for theMeas in theTree:
@@ -81,14 +85,14 @@ for theMeas in theTree:
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+    imagPartL = innerProduct (refVec, sinVecL)
+    imagPartR = innerProduct (refVec, sinVecR)
 
     waveFile.setpos (datum)
     cosBytes = waveFile.readframes (burstSamp)
     cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
-    realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
-    realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
+    realPartL = innerProduct (refVec, cosVecL)
+    realPartR = innerProduct (refVec, cosVecR)
 
     # normalize
     imagPartL *= -2 / burstSamp / imbal
@@ -107,8 +111,8 @@ for theMeas in theTree:
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+    imagPartL = innerProduct (refVec, sinVecL)
+    imagPartR = innerProduct (refVec, sinVecR)
 
     waveFile.setpos (datum)
     cosBytes = waveFile.readframes (burstSamp)
@@ -133,14 +137,14 @@ for theMeas in theTree:
     waveFile.setpos (datum - cellSamp)
     sinBytes = waveFile.readframes (burstSamp)
     sinVecL, sinVecR = zip (*[t for t in struct.iter_unpack ('<hh', sinBytes)])
-    imagPartL = sum ([x * y for (x,y) in zip (refVec, sinVecL)])
-    imagPartR = sum ([x * y for (x,y) in zip (refVec, sinVecR)])
+    imagPartL = innerProduct (refVec, sinVecL)
+    imagPartR = innerProduct (refVec, sinVecR)
 
     waveFile.setpos (datum)
     cosBytes = waveFile.readframes (burstSamp)
     cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
-    realPartL = sum ([x * y for (x,y) in zip (refVec, cosVecL)])
-    realPartR = sum ([x * y for (x,y) in zip (refVec, cosVecR)])
+    realPartL = innerProduct (refVec, cosVecL)
+    realPartR = innerProduct (refVec, cosVecR)
 
     # normalize
     imagPartL *= -2 / burstSamp / imbal
@@ -155,8 +159,16 @@ for theMeas in theTree:
     theMeas.update (toUpdate)
 
     # do some calculations
+    print ()
     print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
     print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
+    print ('secondL/firstR: {}, secondR/firstL: {}'.format (secondL/firstR, secondR/firstL))
+
+    # attempt to use ratio of first to second on the same channel,
+    # to correct the ratio of first to second on opposite channels
+    correction = secondR/firstR
+    corrected = secondL/firstL/correction
+    print ('corrected: {}'.format (corrected))
 
     # move to end of second burst
     datum += burstSamp

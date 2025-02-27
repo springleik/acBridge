@@ -84,6 +84,8 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
     # iterate over measurements
     for theMeas in theTree:
         # gather details for each measurement
+        # TODO make these values persistent, so they only change if the current
+        # dictionary record has new values. Otherwise keep the previous values
         delay = theMeas ['startDelay']
         ampL1 = theMeas ['amplL1']
         ampL2 = theMeas ['amplL2']
