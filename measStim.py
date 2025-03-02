@@ -11,13 +11,13 @@ import wave, math, struct, json, sys
 
 # check for command line args
 if len (sys.argv) != 3:
-    print ('Useage: python3 measStim.py inFileNameNoExt outFileNameNoExt')
+    print ('Useage: python3 {} inFileNameNoExt outFileNameNoExt'.format (sys.argv[0]))
     quit ()
 inFileName = sys.argv[1]    # setup for creating stimulus file
 outFileName = sys.argv[2]   # setup for analyzing response file
 
 # load setup file
-theTree = [{}]
+theTree = {}
 try:
     with open (inFileName + '.json', 'r') as setupFile:
         theTree = json.load (setupFile)
@@ -26,16 +26,14 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
     print ("Failed to load setup file '{}.json'".format (inFileName))
     print (e)
 
-# initialize setup
-def initializeDetails (aMeas):
-    aMeas.setdefault ('amplL1', 20000)          # max sample value first left
-    aMeas.setdefault ('amplR1', 20000)          # max sample value first right
-    aMeas.setdefault ('amplL2', 20000)          # max sample value second left
-    aMeas.setdefault ('amplR2', 20000)          # max sample value second right
-    aMeas.setdefault ('requestFreq', 100.0)     # requested frequency
-    aMeas.setdefault ('sampleRate', 44100)      # samples per second
-    aMeas.setdefault ('startDelay', 44100)      # silence before each burst
-    aMeas.setdefault ('imbalanceOut', 1.0)      # output channel balance L/R
+# initialize setup, only modify empty fields
+def initializeDetails (aMeas) -> dict:
+    aMeas.setdefault ('amplitude', 20000)     # max sample value first left
+    aMeas.setdefault ('requestFreq', 159.15)  # requested frequency
+    aMeas.setdefault ('sampleRate', 44100)     # samples per second
+    aMeas.setdefault ('startDelay', 44100)     # silence before each burst
+    aMeas.setdefault ('imbalanceOut', 1.0)     # output channel balance L/R
+    return aMeas
 
 '''
 Given a sample rate and requested frequency, compute the number of
@@ -44,8 +42,8 @@ Where a cell is at most 1/8 second, and four cells contain full
 waves.
 '''
 
-# fill in the details for each measurement
-def fillInDetails (aMeas):
+# fill in details for each measurement
+def fillInDetails (aMeas) -> dict:
     sampRate = aMeas ['sampleRate']
     reqFreq = aMeas ['requestFreq']
     cellQuartWaves = 4 * int ((reqFreq / 2 - 1) / 4) + 1
@@ -57,13 +55,19 @@ def fillInDetails (aMeas):
     aMeas ['cellSamples'] = cellSamp
     numWaves = round (4 * actFreq * cellSamp / sampRate)
     aMeas ['countWaves'] = numWaves
+    return aMeas
 
-# initialize and fill in details for all measurements
+# enclose in array if not already
 if isinstance (theTree, dict):
     theTree = [theTree]
+
+# initialize and fill in details for all measurements
+prevTree = initializeDetails ({})
 for theMeas in theTree:
-    initializeDetails (theMeas)
+    for key, value in prevTree.items ():
+        theMeas.setdefault (key, value)
     fillInDetails (theMeas)
+    prevTree = theMeas
 print (json.dumps(theTree, indent = 2))
 
 '''
@@ -81,27 +85,22 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
     waveFile.setnchannels (2)   # channels per sample
     sampRate = theTree [0]['sampleRate']
     waveFile.setframerate (sampRate)
+
     # iterate over measurements
     for theMeas in theTree:
         # gather details for each measurement
-        # TODO make these values persistent, so they only change if the current
-        # dictionary record has new values. Otherwise keep the previous values
         delay = theMeas ['startDelay']
-        ampL1 = theMeas ['amplL1']
-        ampL2 = theMeas ['amplL2']
-        ampR1 = theMeas ['amplR1']
-        ampR2 = theMeas ['amplR2']
+        ampl = theMeas ['amplitude']
         imbal = theMeas ['imbalanceOut']
         cellSamp = theMeas ['cellSamples']
         countWave = theMeas ['countWaves']
         burstSamp = cellSamp * 4
         incr = 2.0 * math.pi * countWave / 4.0 / cellSamp
 
-        # build four cells of stimulus in memory
-        theCycle = [math.sin ((n + 0.5) * incr) for n in range (burstSamp)]
-
-        # optionally add in harmonic shaping
-        # theCycle [:] = [(theCycle [n] - math.sin (2 * (n + 0.5) * incr) / 2) for n in range (burstSamp)]
+        # build four cells of stimulus in memory, for fundamental and harmonic
+        # TODO consider how to add a half-sample offset to the harmonic
+        fundSin = [math.sin ((n + 0.5) * incr) for n in range (burstSamp)]
+        harmSin = [math.sin (2 * (n + 0.5) * incr) / -2 for n in range (burstSamp)]
 
         # write silent startup delay, 4 bytes per frame
         aCycle = bytearray (4 * delay)
@@ -111,8 +110,8 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         # write two bursts (eight cells) to left channel
         aCycle = bytearray ()
         for n in range (burstSamp):
-            aSample = struct.pack ('<hh', round (ampL1 * theCycle [n]),
-                round (ampR1 * theCycle [n] * imbal))
+            aSample = struct.pack ('<hh', round (ampl * (fundSin[n] + harmSin[n])),
+                round (ampl * harmSin[n] * imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)
@@ -126,8 +125,8 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         # write two bursts to right channel
         aCycle = bytearray ()
         for n in range (burstSamp):
-            aSample = struct.pack ('<hh', round (ampL2 * theCycle [n]),
-                round (ampR2 * theCycle [n] * imbal))
+            aSample = struct.pack ('<hh', round (ampl * harmSin[n]),
+                round (ampl * (fundSin[n] + harmSin[n]) * imbal))
             aCycle.extend (aSample)
         for n in range (2):
             waveFile.writeframes (aCycle)
