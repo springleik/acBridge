@@ -87,6 +87,8 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
         realPartL = innerProduct (fundCos, cosVecL)
         realPartR = innerProduct (fundCos, cosVecR)
+        realHarmR = innerProduct (harmCos, cosVecR)
+        imagHarmR = innerProduct (harmSin, cosVecR)
 
         # normalize
         imagPartL *= -2 / burstSamp / imbal
@@ -96,6 +98,10 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         imagPartR *= -2 / burstSamp
         realPartR *=  2 / burstSamp
         firstR = complex (realPartR, imagPartR)
+
+        imagHarmR *= -2 / burstSamp
+        realHarmR *=  2 / burstSamp
+        firstHarmR = complex (realHarmR, imagHarmR)
 
         # decorate measurement tree
         toUpdate = {'firstBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
@@ -114,6 +120,8 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         cosVecL, cosVecR = zip (*[t for t in struct.iter_unpack ('<hh', cosBytes)])
         realPartL = innerProduct (fundCos, cosVecL)
         realPartR = innerProduct (fundCos, cosVecR)
+        realHarmR = innerProduct (harmCos, cosVecR)
+        imagHarmR = innerProduct (harmSin, cosVecR)
 
         # normalize
         imagPartL *= -2 / burstSamp / imbal
@@ -124,21 +132,20 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         realPartR *=  2 / burstSamp
         secondR = complex (realPartR, imagPartR)
 
+        imagHarmR *= -2 / burstSamp
+        realHarmR *=  2 / burstSamp
+        secondHarmR = complex (realHarmR, imagHarmR)
+
         # decorate measurement tree
         toUpdate = {'secondBurst': {'left': [realPartL, imagPartL], 'right': [realPartR, imagPartR]}}
         theMeas.update (toUpdate)
 
         # do some calculations
-        # print ()
-        # print ('firstL/firstR: {}, secondL/secondR: {}'.format (firstL/firstR, secondL/secondR))
+        correction = secondHarmR/firstHarmR
+        print ('secondHarmR/firstHarmR: {}'.format (correction))
         print ('secondL/firstL: {}, secondR/firstR: {}'.format (secondL/firstL, secondR/firstR))
-        # print ('secondL/firstR: {}, secondR/firstL: {}'.format (secondL/firstR, secondR/firstL))
-
-        # attempt to use ratio of first to second on the same channel,
-        # to correct the ratio of first to second on opposite channels
-        # correction = secondR/firstR
-        # corrected = secondL/firstL/correction
-        # print ('corrected: {}'.format (corrected))
+        print ('corrected secondL/firstL: {},'.format (secondL/firstL/correction))
+        print ()
 
         # move to end of second burst
         datum += burstSamp
