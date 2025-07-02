@@ -29,7 +29,8 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 # initialize setup, only modify empty fields
 sampRate = 44100
 def initializeDetails (aMeas) -> dict:
-    aMeas.setdefault ('amplitude', 5000000)         # max sample value
+    aMeas.setdefault ('amplitude', 4000000)         # max sample value
+    aMeas.setdefault ('ampX', 1.0)                   # max sample value
     aMeas.setdefault ('requestFreq', 159.1549)      # requested frequency
     aMeas.setdefault ('sampleRate', sampRate)       # samples per second
     aMeas.setdefault ('startDelay', 44100)          # silence before each burst
@@ -97,6 +98,7 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         if not isinstance (theMeas, dict): continue
         # gather details for each measurement
         ampl = theMeas ['amplitude']
+        ampX = theMeas ['ampX']
         delay = theMeas ['startDelay']
         imbal = complex (theMeas ['imbalanceOut'][0],
             theMeas ['imbalanceOut'][1])
@@ -118,7 +120,7 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             floatL = (ampl * fundSin [n]).imag
-            floatR = (ampl * fundSin [n] * imbal).imag
+            floatR = (0 * ampl * fundSin [n] * imbal).imag
             bytesL = math.floor (floatL).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (floatR).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
@@ -133,10 +135,9 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         byteCount += len (aCycle)
 
         # write four cells twice to both channels
-        # flip left channel polarity in second burst
         aCycle = bytearray ()
         for n in range (burstSamp):
-            floatL = (-ampl * fundSin [n]).imag
+            floatL = (0 * ampl * fundSin [n] * ampX).imag
             floatR = (ampl * fundSin [n] * imbal).imag
             bytesL = math.floor (floatL).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (floatR).to_bytes (3, byteorder = 'little', signed = True)

@@ -125,19 +125,49 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         c = theMeas ['bursts'][0]['chans'][1]['rect'] * imbal
         d = theMeas ['bursts'][1]['chans'][1]['rect'] * imbal
 
-        if (True):
+        # for basic calibration of inputs and outputs
+        # average multiple trials in Excel to get correction factors
+        if (False):
+            first  = a/c
+            second = b/d
+            third  = a/d
             print (
-                theMeas ['amplitude'],
                 theMeas ['actualFreq'],
-                ((a+b)/(a-b)).real, ((a+b)/(a-b)).imag,
-                ((a+b*c/d)/(a-b*c/d)).real, ((a+b*c/d)/(a-b*c/d)).imag
+                first.real, first.imag,
+                second.real, second.imag,
+                third.real, third.imag
             )
 
+        # measurement of detector input impedance
+        # left-only first burst, right-only second burst
         if (False):
+            freq = theMeas ['actualFreq']
+            omega = complex (0, 2 * math.pi * freq)
+            ratio = d/a
+            tau = (ratio - 1)/omega
             print (
-                theMeas ['amplitude'],
+                freq, omega,
+                ratio.real, ratio.imag,
+                tau.real, tau.imag
+            )
+
+        # simple impedance ratio measurement with
+        # left-only first burst, right-only second burst
+        if (True):
+            ratio = b/a
+            print (
                 theMeas ['actualFreq'],
-                abs(a), abs(b), abs(c), abs(d)
+                ratio.real, ratio.imag
+            )
+
+        # alternate impedance ratio measurement with
+        # left and right positive equal in first burst,
+        # left negative and right positive in second burst
+        if (False):
+            ratio = (a+b)/(a-b)
+            print (
+                theMeas ['actualFreq'],
+                ratio.real, ratio.imag
             )
 
 # show decorated tree on the console
