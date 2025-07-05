@@ -7,7 +7,7 @@ been created by another program with a matching stimulus file.
 M. Williamsen, 14 February 2025
 '''
 
-import wave, math, struct, json, sys, cmath, itertools
+import wave, math, struct, json, sys, cmath, itertools, numpy
 
 # check for command line args
 if len (sys.argv) != 3:
@@ -39,7 +39,7 @@ Bursts are approximately 1/2 second times two, so the stimulus
 file contains silence followed by up to one second of left
 channel excitation, more silence, then one second of right
 channel excitation. The total measurement length will be about
-4 seconds, somewhat less than 3/4 megabyte on disk.
+4 seconds, just over a megabyte on disk.
 '''
 
 # read response file
@@ -70,8 +70,6 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
 
         # gather details for the measurement
         delay = theMeas ['startDelay']
-        imbal = complex (theMeas['imbalanceIn'][0],
-            theMeas['imbalanceIn'][1])
         cellSamp = theMeas ['cellSamples']
         countWave = theMeas ['countWaves']
         burstSamp = cellSamp * 4
@@ -79,6 +77,11 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         burstFrameCount = delay + (2 * burstSamp)
         theMeas.update ({'bursts':[]})
         cursor = theMeas ['bursts']
+        calIn = theMeas ['calMatrixIn']
+        calMatrix = numpy.array ([
+            [complex (*calIn[0][0]), complex (*calIn[0][1])],
+            [complex (*calIn[1][0]), complex (*calIn[1][1])]
+            ])
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
 
         # iterate over tonebursts
@@ -122,19 +125,27 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         # fundamental
         a = theMeas ['bursts'][0]['chans'][0]['rect']
         b = theMeas ['bursts'][1]['chans'][0]['rect']
-        c = theMeas ['bursts'][0]['chans'][1]['rect'] * imbal
-        d = theMeas ['bursts'][1]['chans'][1]['rect'] * imbal
+        c = theMeas ['bursts'][0]['chans'][1]['rect']
+        d = theMeas ['bursts'][1]['chans'][1]['rect']
+
+        # apply input calibration matrix
+        yNp = calMatrix @ numpy.array ([a, c])
+        a = yNp[0]
+        c = yNp[1]
+        yNp = calMatrix @ numpy.array ([b, d])
+        b = yNp[0]
+        d = yNp[1]
 
         # check absolute levels and their ratios
         if (True):
-            print (
-                abs(a), cmath.phase(a),
-                abs(b), cmath.phase(b),
-                abs(c), cmath.phase(c),
-                abs(d), cmath.phase(d),
-                (c/a).real, (c/a).imag,
-                (d/b).real, (d/b).imag,
-                (d/a).real, (d/a).imag
+            print (a, b, c, d
+                # abs(a), cmath.phase(a),
+                # abs(b), cmath.phase(b),
+                # abs(c), cmath.phase(c),
+                # abs(d), cmath.phase(d),
+                # (c/a).real, (c/a).imag,
+                # (d/b).real, (d/b).imag,
+                # (d/a).real, (d/a).imag
             )
 
         # for basic calibration of inputs and outputs

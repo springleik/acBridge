@@ -7,7 +7,7 @@ will be created by another program.
 M. Williamsen, 14 February 2025
 '''
 
-import wave, math, struct, json, sys, cmath
+import wave, math, struct, json, sys, cmath, numpy
 
 # check for command line args
 if len (sys.argv) != 3:
@@ -28,14 +28,14 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 
 # initialize setup, only modify empty fields
 sampRate = 44100
+calDefault = [[[1,0],[0,0]],[[0,0],[1,0]]]
 def initializeDetails (aMeas) -> dict:
     aMeas.setdefault ('amplitude', 4000000)         # max sample value
-    aMeas.setdefault ('ampX', 1.0)                   # max sample value
     aMeas.setdefault ('requestFreq', 159.1549)      # requested frequency
     aMeas.setdefault ('sampleRate', sampRate)       # samples per second
-    aMeas.setdefault ('startDelay', 44100)          # silence before each burst
-    aMeas.setdefault ('imbalanceOut', [1.0, 0.0])   # output channel balance L/R
-    aMeas.setdefault ('imbalanceIn', [1.0, 0.0])    # input channel balance L/R
+    aMeas.setdefault ('startDelay', sampRate)       # silence before each burst
+    aMeas.setdefault ('calMatrixOut', calDefault)   # output calibration matrix
+    aMeas.setdefault ('calMatrixIn', calDefault)    # input calibration matrix
     return aMeas
 
 '''
@@ -82,7 +82,7 @@ Bursts are approximately 1/2 second times two, so the stimulus
 file contains silence followed by up to one second of left
 channel excitation, more silence, then one second of right
 channel excitation. The total measurement length will be about
-4 seconds, somewhat less than 3/4 megabyte on disk.
+4 seconds, just over a megabyte on disk.
 '''
 
 # create stimulus file, overwrite existing file if any
@@ -98,17 +98,19 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         if not isinstance (theMeas, dict): continue
         # gather details for each measurement
         ampl = theMeas ['amplitude']
-        ampX = theMeas ['ampX']
         delay = theMeas ['startDelay']
-        imbal = complex (theMeas ['imbalanceOut'][0],
-            theMeas ['imbalanceOut'][1])
         cellSamp = theMeas ['cellSamples']
         countWave = theMeas ['countWaves']
         burstSamp = cellSamp * 4
         incr = math.tau * countWave / 4.0 / cellSamp
+        calOut = theMeas ['calMatrixOut']
+        calMatrix = numpy.array ([
+            [complex (*calOut[0][0]), complex (*calOut[0][1])],
+            [complex (*calOut[1][0]), complex (*calOut[1][1])]
+            ])
 
         # build four cells of stimulus in memory
-        fundSin = [cmath.exp (complex (0, (n + 0.5) * incr))
+        stimulus = [cmath.exp (complex (0, (n + 0.5) * incr))
             for n in range (burstSamp)]
 
         # write silent startup delay, 6 bytes per frame
@@ -116,13 +118,15 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         waveFile.writeframes (aCycle)
         byteCount += len (aCycle)
 
-        # write four cells twice to both channels
+        # write four cells twice to left channel
         aCycle = bytearray ()
         for n in range (burstSamp):
-            floatL = (ampl * fundSin [n]).imag
-            floatR = (0 * ampl * fundSin [n] * imbal).imag
-            bytesL = math.floor (floatL).to_bytes (3, byteorder = 'little', signed = True)
-            bytesR = math.floor (floatR).to_bytes (3, byteorder = 'little', signed = True)
+            floatL = (ampl * stimulus[n])
+            floatR = 0
+            # apply output calibration matrix
+            yNp = calMatrix @ numpy.array ([floatL, floatR])
+            bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
+            bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
             aCycle.extend (aSample)
         for n in range (2):
@@ -134,13 +138,15 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         waveFile.writeframes (aCycle)
         byteCount += len (aCycle)
 
-        # write four cells twice to both channels
+        # write four cells twice to right channel
         aCycle = bytearray ()
         for n in range (burstSamp):
-            floatL = (0 * ampl * fundSin [n] * ampX).imag
-            floatR = (ampl * fundSin [n] * imbal).imag
-            bytesL = math.floor (floatL).to_bytes (3, byteorder = 'little', signed = True)
-            bytesR = math.floor (floatR).to_bytes (3, byteorder = 'little', signed = True)
+            floatL = 0
+            floatR = (ampl * stimulus[n])
+            # apply output calibration matrix
+            yNp = calMatrix @ numpy.array ([floatL, floatR])
+            bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
+            bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
             aCycle.extend (aSample)
         for n in range (2):
