@@ -125,6 +125,18 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         c = theMeas ['bursts'][0]['chans'][1]['rect'] * imbal
         d = theMeas ['bursts'][1]['chans'][1]['rect'] * imbal
 
+        # check absolute levels and their ratios
+        if (True):
+            print (
+                abs(a), cmath.phase(a),
+                abs(b), cmath.phase(b),
+                abs(c), cmath.phase(c),
+                abs(d), cmath.phase(d),
+                (c/a).real, (c/a).imag,
+                (d/b).real, (d/b).imag,
+                (d/a).real, (d/a).imag
+            )
+
         # for basic calibration of inputs and outputs
         # average multiple trials in Excel to get correction factors
         if (False):
@@ -153,7 +165,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
 
         # simple impedance ratio measurement with
         # left-only first burst, right-only second burst
-        if (True):
+        if (False):
             ratio = b/a
             print (
                 theMeas ['actualFreq'],
