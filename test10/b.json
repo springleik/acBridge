@@ -1,0 +1,362 @@
+[
+  {
+    "requestFreq": 15.9154943091895,
+    "imbalanceIn": [
+      0.998183576779488,
+      -0.000155969982269974
+    ],
+    "imbalanceOut": [
+      0.992843772188531,
+      -2.3345630757402e-05
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15.918279,
+    "cellSamples": 3463,
+    "countWaves": 5
+  },
+  {
+    "requestFreq": 15.9154943091895,
+    "imbalanceIn": [
+      0.998183576779488,
+      -0.000155969982269974
+    ],
+    "imbalanceOut": [
+      0.992843772188531,
+      -2.3345630757402e-05
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15.918279,
+    "cellSamples": 3463,
+    "countWaves": 5
+  },
+  {
+    "requestFreq": 15.9154943091895,
+    "imbalanceIn": [
+      0.998183576779488,
+      -0.000155969982269974
+    ],
+    "imbalanceOut": [
+      0.992843772188531,
+      -2.3345630757402e-05
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15.918279,
+    "cellSamples": 3463,
+    "countWaves": 5
+  },
+  {
+    "requestFreq": 15.9154943091895,
+    "imbalanceIn": [
+      0.998183576779488,
+      -0.000155969982269974
+    ],
+    "imbalanceOut": [
+      0.992843772188531,
+      -2.3345630757402e-05
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15.918279,
+    "cellSamples": 3463,
+    "countWaves": 5
+  },
+  {
+    "requestFreq": 15.9154943091895,
+    "imbalanceIn": [
+      0.998183576779488,
+      -0.000155969982269974
+    ],
+    "imbalanceOut": [
+      0.992843772188531,
+      -2.3345630757402e-05
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15.918279,
+    "cellSamples": 3463,
+    "countWaves": 5
+  },
+  {
+    "requestFreq": 159.154943091895,
+    "imbalanceIn": [
+      0.998182293416401,
+      -1.45788448529345e-05
+    ],
+    "imbalanceOut": [
+      0.992843058995101,
+      -0.000222872048144065
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 159.183386,
+    "cellSamples": 5333,
+    "countWaves": 77
+  },
+  {
+    "requestFreq": 159.154943091895,
+    "imbalanceIn": [
+      0.998182293416401,
+      -1.45788448529345e-05
+    ],
+    "imbalanceOut": [
+      0.992843058995101,
+      -0.000222872048144065
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 159.183386,
+    "cellSamples": 5333,
+    "countWaves": 77
+  },
+  {
+    "requestFreq": 159.154943091895,
+    "imbalanceIn": [
+      0.998182293416401,
+      -1.45788448529345e-05
+    ],
+    "imbalanceOut": [
+      0.992843058995101,
+      -0.000222872048144065
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 159.183386,
+    "cellSamples": 5333,
+    "countWaves": 77
+  },
+  {
+    "requestFreq": 159.154943091895,
+    "imbalanceIn": [
+      0.998182293416401,
+      -1.45788448529345e-05
+    ],
+    "imbalanceOut": [
+      0.992843058995101,
+      -0.000222872048144065
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 159.183386,
+    "cellSamples": 5333,
+    "countWaves": 77
+  },
+  {
+    "requestFreq": 159.154943091895,
+    "imbalanceIn": [
+      0.998182293416401,
+      -1.45788448529345e-05
+    ],
+    "imbalanceOut": [
+      0.992843058995101,
+      -0.000222872048144065
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 159.183386,
+    "cellSamples": 5333,
+    "countWaves": 77
+  },
+  {
+    "requestFreq": 1591.54943091895,
+    "imbalanceIn": [
+      0.99818428594481,
+      5.11256516413983e-06
+    ],
+    "imbalanceOut": [
+      0.992553885697468,
+      -0.00219006067650244
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 1591.630257,
+    "cellSamples": 5493,
+    "countWaves": 793
+  },
+  {
+    "requestFreq": 1591.54943091895,
+    "imbalanceIn": [
+      0.99818428594481,
+      5.11256516413983e-06
+    ],
+    "imbalanceOut": [
+      0.992553885697468,
+      -0.00219006067650244
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 1591.630257,
+    "cellSamples": 5493,
+    "countWaves": 793
+  },
+  {
+    "requestFreq": 1591.54943091895,
+    "imbalanceIn": [
+      0.99818428594481,
+      5.11256516413983e-06
+    ],
+    "imbalanceOut": [
+      0.992553885697468,
+      -0.00219006067650244
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 1591.630257,
+    "cellSamples": 5493,
+    "countWaves": 793
+  },
+  {
+    "requestFreq": 1591.54943091895,
+    "imbalanceIn": [
+      0.99818428594481,
+      5.11256516413983e-06
+    ],
+    "imbalanceOut": [
+      0.992553885697468,
+      -0.00219006067650244
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 1591.630257,
+    "cellSamples": 5493,
+    "countWaves": 793
+  },
+  {
+    "requestFreq": 1591.54943091895,
+    "imbalanceIn": [
+      0.99818428594481,
+      5.11256516413983e-06
+    ],
+    "imbalanceOut": [
+      0.992553885697468,
+      -0.00219006067650244
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 1591.630257,
+    "cellSamples": 5493,
+    "countWaves": 793
+  },
+  {
+    "requestFreq": 15915.4943091895,
+    "imbalanceIn": [
+      0.998195080943835,
+      2.9116888939457e-05
+    ],
+    "imbalanceOut": [
+      0.981341700447734,
+      -0.00814360379980274
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15918.331519,
+    "cellSamples": 5511,
+    "countWaves": 7957
+  },
+  {
+    "requestFreq": 15915.4943091895,
+    "imbalanceIn": [
+      0.998195080943835,
+      2.9116888939457e-05
+    ],
+    "imbalanceOut": [
+      0.981341700447734,
+      -0.00814360379980274
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15918.331519,
+    "cellSamples": 5511,
+    "countWaves": 7957
+  },
+  {
+    "requestFreq": 15915.4943091895,
+    "imbalanceIn": [
+      0.998195080943835,
+      2.9116888939457e-05
+    ],
+    "imbalanceOut": [
+      0.981341700447734,
+      -0.00814360379980274
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15918.331519,
+    "cellSamples": 5511,
+    "countWaves": 7957
+  },
+  {
+    "requestFreq": 15915.4943091895,
+    "imbalanceIn": [
+      0.998195080943835,
+      2.9116888939457e-05
+    ],
+    "imbalanceOut": [
+      0.981341700447734,
+      -0.00814360379980274
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15918.331519,
+    "cellSamples": 5511,
+    "countWaves": 7957
+  },
+  {
+    "requestFreq": 15915.4943091895,
+    "imbalanceIn": [
+      0.998195080943835,
+      2.9116888939457e-05
+    ],
+    "imbalanceOut": [
+      0.981341700447734,
+      -0.00814360379980274
+    ],
+    "amplitude": 4000000,
+    "ampX": 1.0,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "actualFreq": 15918.331519,
+    "cellSamples": 5511,
+    "countWaves": 7957
+  }
+]
