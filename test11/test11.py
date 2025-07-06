@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy, json
 
 # special handling to serialize complex numbers

@@ -70,6 +70,7 @@ prevTree = initializeDetails ({})
 for theMeas in theTree:
     # skip over comments and other non-measurements
     if not isinstance (theMeas, dict): continue
+    if "skip" in theMeas: continue
     for key, value in prevTree.items ():
         theMeas.setdefault (key, value)
     fillInDetails (theMeas)
@@ -96,6 +97,8 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
     for theMeas in theTree:
         # skip over comments and other non-measurements
         if not isinstance (theMeas, dict): continue
+        if "skip" in theMeas: continue
+
         # gather details for each measurement
         ampl = theMeas ['amplitude']
         delay = theMeas ['startDelay']

@@ -55,6 +55,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
     for theMeas in theTree:
         # skip over comments and other non-measurements
         if not isinstance (theMeas, dict): continue
+        if "skip" in theMeas: continue
         expectFrames += 2 * ((theMeas ['cellSamples'] * 8) + theMeas ['startDelay'])
     print ('Expected {} frames, found {}'.format (expectFrames, actualFrames))
     if actualFrames < expectFrames:
@@ -67,6 +68,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
     for i, theMeas in enumerate (theTree):
         # skip over comments and other non-measurements
         if not isinstance (theMeas, dict): continue
+        if "skip" in theMeas: continue
 
         # gather details for the measurement
         delay = theMeas ['startDelay']
