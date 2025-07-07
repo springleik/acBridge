@@ -145,18 +145,23 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             m01 = b/ampl
             m10 = c/ampl
             m11 = d/ampl
+            # normalize first coefficient to unity
             mNp = numpy.array ([[m00,m01],[m10,m11]]) / m00
             print (
                 mNp
             )
+            # decorate the tree with JSON text
             theMeas ['calMatrixMeas'] = mNp.tolist ()
 
         elif True:
             print (
                 theMeas ['actualFreq'],
+                (b/a).real, (b/a).imag,
                 (c/a).real, (c/a).imag,
-                (b/d).real, (b/d).imag,
-                (a/d).real, (a/d).imag
+                (d/a).real, (d/a).imag
+                # (c/a).real, (c/a).imag,
+                # (b/d).real, (b/d).imag,
+                # (a/d).real, (a/d).imag
             )
 
         # measurement of time constant
@@ -170,8 +175,6 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
                 ratio.real, ratio.imag,
                 tau.real, tau.imag
             )
-
-
 
 # show decorated tree on the console
 # print (json.dumps(theTree, indent = 2, default = customJson))
