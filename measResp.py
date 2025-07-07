@@ -84,6 +84,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             [complex (*calIn[0][0]), complex (*calIn[0][1])],
             [complex (*calIn[1][0]), complex (*calIn[1][1])]
             ])
+        ampl = theMeas ['amplitude']
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
 
         # iterate over tonebursts
@@ -138,34 +139,28 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         b = yNp[0]
         d = yNp[1]
 
-        # check absolute levels and their ratios
-        if (True):
-            print (a, b, c, d
-                # abs(a), cmath.phase(a),
-                # abs(b), cmath.phase(b),
-                # abs(c), cmath.phase(c),
-                # abs(d), cmath.phase(d),
-                # (c/a).real, (c/a).imag,
-                # (d/b).real, (d/b).imag,
-                # (d/a).real, (d/a).imag
+        # obtain coefficients of transfer matrix
+        if False:
+            m00 = a/ampl
+            m01 = b/ampl
+            m10 = c/ampl
+            m11 = d/ampl
+            mNp = numpy.array ([[m00,m01],[m10,m11]]) / m00
+            print (
+                mNp
             )
+            theMeas ['calMatrixMeas'] = mNp.tolist ()
 
-        # for basic calibration of inputs and outputs
-        # average multiple trials in Excel to get correction factors
-        if (False):
-            first  = a/c
-            second = b/d
-            third  = a/d
+        elif True:
             print (
                 theMeas ['actualFreq'],
-                first.real, first.imag,
-                second.real, second.imag,
-                third.real, third.imag
+                (c/a).real, (c/a).imag,
+                (b/d).real, (b/d).imag,
+                (a/d).real, (a/d).imag
             )
 
-        # measurement of detector input impedance
-        # left-only first burst, right-only second burst
-        if (False):
+        # measurement of time constant
+        elif False:
             freq = theMeas ['actualFreq']
             omega = complex (0, 2 * math.pi * freq)
             ratio = d/a
@@ -176,24 +171,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
                 tau.real, tau.imag
             )
 
-        # simple impedance ratio measurement with
-        # left-only first burst, right-only second burst
-        if (False):
-            ratio = b/a
-            print (
-                theMeas ['actualFreq'],
-                ratio.real, ratio.imag
-            )
 
-        # alternate impedance ratio measurement with
-        # left and right positive equal in first burst,
-        # left negative and right positive in second burst
-        if (False):
-            ratio = (a+b)/(a-b)
-            print (
-                theMeas ['actualFreq'],
-                ratio.real, ratio.imag
-            )
 
 # show decorated tree on the console
 # print (json.dumps(theTree, indent = 2, default = customJson))
