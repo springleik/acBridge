@@ -85,6 +85,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             [complex (*calIn[1][0]), complex (*calIn[1][1])]
             ])
         ampl = theMeas ['amplitude']
+        input = theMeas ['input']
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
 
         # iterate over tonebursts
@@ -123,45 +124,30 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
                 cursor1 [k].update ({'rect': cplx})
                 cursor1 [k].update ({'polar': cmath.polar (cplx)})
 
-        # TODO analyze measurement results to obtain RC time constant
-
-        # fundamental
+        # complex valued measurements
         a = theMeas ['bursts'][0]['chans'][0]['rect']
         b = theMeas ['bursts'][1]['chans'][0]['rect']
         c = theMeas ['bursts'][0]['chans'][1]['rect']
         d = theMeas ['bursts'][1]['chans'][1]['rect']
 
         # apply input calibration matrix
-        yNp = calMatrix @ numpy.array ([a, c])
-        a = yNp[0]
-        c = yNp[1]
-        yNp = calMatrix @ numpy.array ([b, d])
-        b = yNp[0]
-        d = yNp[1]
+        a, c = (calMatrix @ numpy.array ([a, c])).tolist ()
+        b, d = (calMatrix @ numpy.array ([b, d])).tolist ()
 
-        # obtain coefficients of transfer matrix
+        # obtain absolute values for calibration
         if False:
-            m00 = a/ampl
-            m01 = b/ampl
-            m10 = c/ampl
-            m11 = d/ampl
-            # normalize first coefficient to unity
-            mNp = numpy.array ([[m00,m01],[m10,m11]]) / m00
-            print (
-                mNp
-            )
+            mNp = numpy.array ([[a,b],[c,d]])
             # decorate the tree with JSON text
             theMeas ['calMatrixMeas'] = mNp.tolist ()
+            print (mNp)
 
+        # gather ratios with respect to 'a'
         elif True:
             print (
                 theMeas ['actualFreq'],
                 (b/a).real, (b/a).imag,
                 (c/a).real, (c/a).imag,
                 (d/a).real, (d/a).imag
-                # (c/a).real, (c/a).imag,
-                # (b/d).real, (b/d).imag,
-                # (a/d).real, (a/d).imag
             )
 
         # measurement of time constant

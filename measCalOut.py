@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 '''
-Python script to calibrate a digital bridge using a gated
-toneburst technique. Assumes stimulus and response setup
-files already exist, modifies the stimulus setup with
-calibration matrices for each measurement.
+Python script to calibrate the output side of a digital
+bridge using a gated toneburst technique. Assumes stimulus
+and response setup files already exist, modifies the stimulus
+setup with calibration matrices for each measurement.
 M. Williamsen, 7 July 2025
 '''
 
@@ -41,18 +41,21 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 reqMeas = None
 sumM = []
 sumN = 0
+
+# top level nodes in stimulus and response trees will match
 for rMeas, sMeas in zip (respTree, stimTree):
     # skip over comments and other non-measurements
     if not isinstance (rMeas, dict): continue
-    if not isinstance (sMeas, dict): continue
     if "skip" in rMeas: continue
-    if "skip" in sMeas: continue
 
-    # look for new frequency in input file
+    # look for new frequency in stimulus file
     if "requestFreq" in sMeas:
         if reqMeas:
-            # compute the inverse of the average, add to tree
+            # compute the inverse of the average
             calOut = numpy.linalg.inv (sumM/sumN)
+            # normalize to first coefficient
+            calOut /= calOut [0][0]
+            # add to stimulus measurement tree
             reqMeas ['calMatrixOut'] = calOut.tolist ()
 
         # open new frequency
@@ -75,11 +78,14 @@ for rMeas, sMeas in zip (respTree, stimTree):
         quit ()
 
 if reqMeas:
-    # compute the inverse of the average, add to tree
+    # compute the inverse of the average
     calOut = numpy.linalg.inv (sumM/sumN)
+    # normalize to first coefficient
+    calOut /= calOut [0][0]
+    # add to stimulus measurement tree
     reqMeas ['calMatrixOut'] = calOut.tolist ()
 else:
-    print ('Done, nothing to save.')
+    print ('Nothing to save, done.')
     quit ()
 
 # special handling to serialize complex numbers
@@ -89,10 +95,9 @@ def customJson (obj):
     else:
         return obj
 
-# save file with inverse matrices
-# overwrites without asking
+# save file with inverse matrices, overwrites without asking
 # print (json.dumps(theTree, indent = 2, default = customJson))
 with open (stimFileName + '.json', 'w') as sFile:
     json.dump (stimTree, sFile, indent = 2, default = customJson)
 
-print ('Done, file saved.')
+print ('File saved, done.')
