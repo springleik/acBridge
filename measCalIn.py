@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 '''
-Python script to calibrate the output side of a digital
+Python script to calibrate the input side of a digital
 bridge using a gated toneburst technique. Assumes stimulus
 and response setup files already exist, modifies the stimulus
 setup with a calibration matrix for each measurement.
-M. Williamsen, 7 July 2025
+M. Williamsen, 8 July 2025
 '''
 
 import sys, json, numpy
@@ -52,11 +52,12 @@ for rMeas, sMeas in zip (respTree, stimTree):
     if "requestFreq" in sMeas:
         if reqMeas:
             # compute the inverse of the average
-            calOut = numpy.linalg.inv (sumM/sumN)
+            # calIn = numpy.linalg.inv (sumM/sumN)
             # normalize to first coefficient
-            calOut /= calOut [0][0]
+            # calIn /= calIn [0][0]
             # add to stimulus measurement tree
-            reqMeas ['calMatrixOut'] = calOut.tolist ()
+            calIn = sumM / sumN
+            reqMeas ['calMatrixIn'] = calIn.tolist ()
 
         # open new frequency
         reqMeas = sMeas
@@ -66,11 +67,19 @@ for rMeas, sMeas in zip (respTree, stimTree):
     # look for calibration matrices in output file
     if 'calMatrixMeas' in rMeas:
         calMeas = rMeas ['calMatrixMeas']
+        input = rMeas ['input']
+        calMatrix = numpy.array ([[0+0j,0+0j],[0+0j,0+0j]])
         # expand complex values
-        calMatrix = numpy.array ([
-            [complex (*calMeas[0][0]), complex (*calMeas[0][1])],
-            [complex (*calMeas[1][0]), complex (*calMeas[1][1])]
-            ])
+        if input == 'left':
+            calMatrix = numpy.array ([
+                [complex (*calMeas[0][0]), complex (1, 0)],
+                [complex (*calMeas[1][0]), complex (1, 0)]
+                ])
+        elif input == 'right':
+            calMatrix = numpy.array ([
+                [complex (1, 0), complex (*calMeas[0][0])],
+                [complex (1, 0), complex (*calMeas[1][0])]
+                ])
         sumM += calMatrix
         sumN += 1
     else:
@@ -79,11 +88,12 @@ for rMeas, sMeas in zip (respTree, stimTree):
 
 if reqMeas:
     # compute the inverse of the average
-    calOut = numpy.linalg.inv (sumM/sumN)
+    # calIn = numpy.linalg.inv (sumM/sumN)
     # normalize to first coefficient
-    calOut /= calOut [0][0]
+    # calIn /= calIn [0][0]
     # add to stimulus measurement tree
-    reqMeas ['calMatrixOut'] = calOut.tolist ()
+    calIn = sumM / sumN
+    reqMeas ['calMatrixIn'] = calIn.tolist ()
 else:
     print ('Nothing to save, done.')
     quit ()

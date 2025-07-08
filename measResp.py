@@ -135,14 +135,14 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         b, d = (calMatrix @ numpy.array ([b, d])).tolist ()
 
         # obtain absolute values for calibration
-        if False:
+        if True:
             mNp = numpy.array ([[a,b],[c,d]])
             # decorate the tree with JSON text
             theMeas ['calMatrixMeas'] = mNp.tolist ()
             print (mNp)
 
         # gather ratios with respect to 'a'
-        elif True:
+        elif False:
             print (
                 theMeas ['actualFreq'],
                 (b/a).real, (b/a).imag,
