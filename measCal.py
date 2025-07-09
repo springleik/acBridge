@@ -49,7 +49,8 @@ except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
 # gather a list of frequencies from the stimulus tree
 freqList = list (ct.locateKey ('requestFreq', stimTree))
 freqList = list (dict.fromkeys (freqList))
-print (freqList)
+calList = []
+print ('Frequency list: ', freqList)
 
 # iterate over request frequencies
 for aFreq in freqList:
@@ -75,6 +76,9 @@ for aFreq in freqList:
         firstRight += complex (*matchList [i]['bursts'][0]['chans'][0]['rect'])
         secondRight += complex (*matchList [i]['bursts'][1]['chans'][0]['rect'])
 
-    # show averages
+    # show averages, normalized and inverted, as JSON text
     result = numpy.array ([[firstLeft,secondLeft],[firstRight,secondRight]])
-    print (result / result [0][0])
+    result /= result [0][0]
+    result = numpy.linalg.inv (result)
+    newDict = {'requestFreq': aFreq, 'calMatrix': result.tolist ()}
+    print (json.dumps (newDict, indent = 2, default = customJson))
