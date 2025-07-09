@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+
 '''
 Python script to measure the ratio between two impedances
 using a gated toneburst technique. Creates a stimulus wave
 file on local mass storage. Assumes the response wave file
 will be created by another program.
-M. Williamsen, 14 February 2025
+M. Williamsen, 4 July 2025
 '''
 
 import wave, math, struct, json, sys, cmath, numpy
@@ -31,11 +32,10 @@ sampRate = 44100
 calDefault = [[[1,0],[0,0]],[[0,0],[1,0]]]
 def initializeDetails (aMeas) -> dict:
     aMeas.setdefault ('amplitude', 4000000)         # max sample value
-    aMeas.setdefault ('requestFreq', 159.1549)      # requested frequency
+    aMeas.setdefault ('requestFreq', 159.15494)     # requested frequency
     aMeas.setdefault ('sampleRate', sampRate)       # samples per second
     aMeas.setdefault ('startDelay', sampRate)       # silence before each burst
-    aMeas.setdefault ('calMatrixOut', calDefault)   # output calibration matrix
-    aMeas.setdefault ('calMatrixIn', calDefault)    # input calibration matrix
+    aMeas.setdefault ('calMatrix', calDefault)      # output calibration matrix
     return aMeas
 
 '''
@@ -71,6 +71,7 @@ for theMeas in theTree:
     # skip over comments and other non-measurements
     if not isinstance (theMeas, dict): continue
     if "skip" in theMeas: continue
+    if "wait" in theMeas: continue
     for key, value in prevTree.items ():
         theMeas.setdefault (key, value)
     fillInDetails (theMeas)
@@ -98,6 +99,12 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         # skip over comments and other non-measurements
         if not isinstance (theMeas, dict): continue
         if "skip" in theMeas: continue
+        if "wait" in theMeas:
+            # write a 5 second wait, 6 bytes per frame
+            aCycle = bytearray (5 * sampRate * 6)
+            waveFile.writeframes (aCycle)
+            byteCount += len (aCycle)
+            continue
 
         # gather details for each measurement
         ampl = theMeas ['amplitude']
@@ -106,7 +113,7 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         countWave = theMeas ['countWaves']
         burstSamp = cellSamp * 4
         incr = math.tau * countWave / 4.0 / cellSamp
-        calOut = theMeas ['calMatrixOut']
+        calOut = theMeas ['calMatrix']
         calMatrix = numpy.array ([
             [complex (*calOut[0][0]), complex (*calOut[0][1])],
             [complex (*calOut[1][0]), complex (*calOut[1][1])]
@@ -121,17 +128,16 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         waveFile.writeframes (aCycle)
         byteCount += len (aCycle)
 
-        # write four cells twice to left channel
+        # construct four cells of stimulus
         aCycle = bytearray ()
         for n in range (burstSamp):
-            floatL = (ampl * stimulus[n])
-            floatR = 0
             # apply output calibration matrix
-            yNp = calMatrix @ numpy.array ([floatL, floatR])
+            yNp = ampl * calMatrix @ numpy.array ([stimulus[n], 0+0j])
             bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
             aCycle.extend (aSample)
+        # write four cells twice to left channel
         for n in range (2):
             waveFile.writeframes (aCycle)
             byteCount += len (aCycle)
@@ -141,17 +147,16 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         waveFile.writeframes (aCycle)
         byteCount += len (aCycle)
 
-        # write four cells twice to right channel
+        # construct four cells of stimulus
         aCycle = bytearray ()
         for n in range (burstSamp):
-            floatL = 0
-            floatR = (ampl * stimulus[n])
             # apply output calibration matrix
-            yNp = calMatrix @ numpy.array ([floatL, floatR])
+            yNp = ampl * calMatrix @ numpy.array ([0+0j, stimulus[n]])
             bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
             aCycle.extend (aSample)
+        # write four cells twice to right channel
         for n in range (2):
             waveFile.writeframes (aCycle)
             byteCount += len (aCycle)

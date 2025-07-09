@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
+
 '''
 Python script to measure the ratio between two impedances
 using a gated toneburst technique. Analyzes a response wave
 file on local mass storage. Assumes the response wave file has
 been created by another program with a matching stimulus file.
-M. Williamsen, 14 February 2025
+M. Williamsen, 4 July 2025
 '''
 
-import wave, math, struct, json, sys, cmath, itertools, numpy
+import wave, math, struct, json, sys, cmath, itertools
 
 # check for command line args
 if len (sys.argv) != 3:
@@ -49,13 +50,17 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
     theParams = waveFile.getparams ()
     print (json.dumps (theParams._asdict (), indent = 2))
     actualFrames = getattr (theParams, 'nframes')
+    sampRate = getattr (theParams, 'framerate')
 
     # add up burst lengths in units of frames
     expectFrames = 0
     for theMeas in theTree:
-        # skip over comments and other non-measurements
+        # skip over comments, waits, and other non-measurements
         if not isinstance (theMeas, dict): continue
         if "skip" in theMeas: continue
+        if "wait" in theMeas:
+            expectFrames += 5 * sampRate
+            continue
         expectFrames += 2 * ((theMeas ['cellSamples'] * 8) + theMeas ['startDelay'])
     print ('Expected {} frames, found {}'.format (expectFrames, actualFrames))
     if actualFrames < expectFrames:
@@ -69,6 +74,9 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         # skip over comments and other non-measurements
         if not isinstance (theMeas, dict): continue
         if "skip" in theMeas: continue
+        if "wait" in theMeas:
+            endDatum += 5 * sampRate
+            continue
 
         # gather details for the measurement
         delay = theMeas ['startDelay']
@@ -79,13 +87,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         burstFrameCount = delay + (2 * burstSamp)
         theMeas.update ({'bursts':[]})
         cursor = theMeas ['bursts']
-        calIn = theMeas ['calMatrixIn']
-        calMatrix = numpy.array ([
-            [complex (*calIn[0][0]), complex (*calIn[0][1])],
-            [complex (*calIn[1][0]), complex (*calIn[1][1])]
-            ])
         ampl = theMeas ['amplitude']
-        input = theMeas ['input']
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
 
         # iterate over tonebursts
@@ -130,19 +132,8 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         c = theMeas ['bursts'][0]['chans'][1]['rect']
         d = theMeas ['bursts'][1]['chans'][1]['rect']
 
-        # apply input calibration matrix
-        a, c = (calMatrix @ numpy.array ([a, c])).tolist ()
-        b, d = (calMatrix @ numpy.array ([b, d])).tolist ()
-
-        # obtain absolute values for calibration
-        if True:
-            mNp = numpy.array ([[a,b],[c,d]])
-            # decorate the tree with JSON text
-            theMeas ['calMatrixMeas'] = mNp.tolist ()
-            print (mNp)
-
         # gather ratios with respect to 'a'
-        elif False:
+        if True:
             print (
                 theMeas ['actualFreq'],
                 (b/a).real, (b/a).imag,
