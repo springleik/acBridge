@@ -134,35 +134,27 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         # c = theMeas ['bursts'][0]['chans'][1]['rect']
         # d = theMeas ['bursts'][1]['chans'][1]['rect']
 
-        # gather ratios with respect to 'a'
+        # gather ratios with respect to 'a' for calibration
         if False:
-            if output == 'left':
-                print (
-                    freq,
-                    (b/a).real, (b/a).imag,
-                )
-            elif output == 'right':
-                print (
-                    freq,
-                    (a/b).real, (a/b).imag,
-                )
+            ratio = 0+0j
+            if output == 'left': ratio = b/a
+            elif output == 'right': ratio = a/b
+            print (freq, ratio.real, ratio.imag)
 
-        elif False:
-            if output == 'left':
-                print (freq, abs(a), cmath.phase(a), abs(b), cmath.phase(b))
-            elif output == 'right':
-                print (freq, abs(b), cmath.phase(b), abs(a), cmath.phase(a))
+        # gather absolute values for calibration
+        if False:
+            e = f = 0+0j
+            if output == 'left': e, f = a, b
+            elif output == 'right': e, f = b, a
+            print (freq, abs(e), cmath.phase(e), abs(f), cmath.phase(f))
 
-        # measurement of time constant
-        elif True:
+        # gather impedance ratio and time constant for measurement
+        # assumes resistor on left output and capacitor on right
+        if True:
+            ratio = b / a
             omega = complex (0, 2 * math.pi * freq)
-            ratio = b/a
-            tau = (ratio - 1)/omega
-            print (
-                freq, omega,
-                ratio.real, ratio.imag,
-                tau.real, tau.imag
-            )
+            tau = ratio / omega
+            print (freq, ratio.real, ratio.imag, tau.real, tau.imag)
 
 # show decorated tree on the console
 # print (json.dumps(theTree, indent = 2, default = customJson))
