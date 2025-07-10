@@ -89,6 +89,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         cursor = theMeas ['bursts']
         ampl = theMeas ['amplitude']
         output = theMeas ['output']
+        freq = theMeas ['actualFreq']
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
 
         # iterate over tonebursts
@@ -134,21 +135,26 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         # d = theMeas ['bursts'][1]['chans'][1]['rect']
 
         # gather ratios with respect to 'a'
-        if True:
+        if False:
             if output == 'left':
                 print (
-                    theMeas ['actualFreq'],
+                    freq,
                     (b/a).real, (b/a).imag,
                 )
             elif output == 'right':
                 print (
-                    theMeas ['actualFreq'],
+                    freq,
                     (a/b).real, (a/b).imag,
                 )
 
-        # measurement of time constant
         elif False:
-            freq = theMeas ['actualFreq']
+            if output == 'left':
+                print (freq, abs(a), cmath.phase(a), abs(b), cmath.phase(b))
+            elif output == 'right':
+                print (freq, abs(b), cmath.phase(b), abs(a), cmath.phase(a))
+
+        # measurement of time constant
+        elif True:
             omega = complex (0, 2 * math.pi * freq)
             ratio = b/a
             tau = (ratio - 1)/omega

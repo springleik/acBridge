@@ -36,6 +36,7 @@ def initializeDetails (aMeas) -> dict:
     aMeas.setdefault ('sampleRate', sampRate)       # samples per second
     aMeas.setdefault ('startDelay', sampRate)       # silence before each burst
     aMeas.setdefault ('calMatrix', calDefault)      # output calibration matrix
+    aMeas.setdefault ('output', None)               # output selected for calibration
     return aMeas
 
 '''
