@@ -52,6 +52,10 @@ freqList = list (dict.fromkeys (freqList))
 calList = []
 print ('Frequency list: ', freqList)
 
+# TODO Count and show how many entries are in the input file
+# for each frequency and left/right because it will throw
+# the correction off if counts don't match.
+
 # iterate over request frequencies
 for aFreq in freqList:
     # gather left output measurements from response tree

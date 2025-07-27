@@ -101,8 +101,8 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         if not isinstance (theMeas, dict): continue
         if "skip" in theMeas: continue
         if "wait" in theMeas:
-            # write a 5 second wait, 6 bytes per frame
-            aCycle = bytearray (5 * sampRate * 6)
+            # write a 8 second wait, 6 bytes per frame
+            aCycle = bytearray (8 * sampRate * 6)
             waveFile.writeframes (aCycle)
             byteCount += len (aCycle)
             continue

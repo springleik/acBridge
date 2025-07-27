@@ -75,7 +75,7 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         if not isinstance (theMeas, dict): continue
         if "skip" in theMeas: continue
         if "wait" in theMeas:
-            endDatum += 5 * sampRate
+            endDatum += 8 * sampRate
             continue
 
         # gather details for the measurement
@@ -147,6 +147,11 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             if output == 'left': e, f = a, b
             elif output == 'right': e, f = b, a
             print (freq, abs(e), cmath.phase(e), abs(f), cmath.phase(f))
+
+        # simple ratio measurement, assumes like impedances
+        if False:
+            ratio = b / a
+            print (freq, a.real, a.imag, b.real, b.imag, ratio.real, ratio.imag)
 
         # gather impedance ratio and time constant for measurement
         # assumes resistor on left output and capacitor on right
