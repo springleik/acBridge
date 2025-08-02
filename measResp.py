@@ -159,7 +159,8 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             ratio = b / a
             omega = complex (0, 2 * math.pi * freq)
             tau = ratio / omega
-            print (freq, ratio.real, ratio.imag, tau.real, tau.imag)
+            print (freq, a.real, a.imag, b.real, b.imag,
+                ratio.real, ratio.imag, tau.real, tau.imag)
 
 # show decorated tree on the console
 # print (json.dumps(theTree, indent = 2, default = customJson))
