@@ -35,23 +35,23 @@ def locatePair(key, value, data):
 # Compare two JSON tree structures for equality
 # returns true if matched, false if not.
 # Pass in an error list to obtain detailed report
-# Do not pass in a path list, the error list contains path info 
+# Do not pass in a path list, the error list contains path info
 # Note this quirk of Python: that default objects like
 # lists get reused as if they were static!
 def treeCompare (ref, tst, error = None, path = None) -> bool:
     if error is None: error = []
     if path is None: path = []
-    
+
     # try to match dictionary keys
     if isinstance (ref, dict) and isinstance (tst, dict):
         # The following three lines of code allow for an early exit, if uncommented.
         # The early exit means that no dictionary entries will be compared, if the
         # test dictionary has less entries than the reference dictionary.
-        
+
         # if len(tst) < len(ref):
         #     error.append ({'dictErr':len(tst),'path':path})
         #     return False
-        
+
         noErrs = True
         for key in ref:
             if key not in tst:
@@ -66,11 +66,11 @@ def treeCompare (ref, tst, error = None, path = None) -> bool:
         # The following three lines of code allow for an early exit.
         # The early exit means that no array elements will be compared
         # if the test array has less entries than the reference array.
-        
+
         if len(tst) < len(ref):
             error.append ({'listErr':len(tst),'path':path})
             return False
-            
+
         noErrs = True
         for n, r in enumerate(ref):
             if not treeCompare (r, tst[n], error, path + [n]):
@@ -134,7 +134,7 @@ def compareTrees (refFileName, tstFileName) -> int:
     print (json.dumps(rept, indent = 2), file = sys.stderr)
     if not rslt: return -1
     else: return 0
-    
+
 # ---------------- Main Entry Point ---------------- #
 def main() -> int:
     # check command line args, expect two file names
@@ -148,7 +148,7 @@ def main() -> int:
         print ('Usage: python3 TreeCompare.py Ref.json Tst.json', file = sys.stderr)
         return -2
     return compareTrees (refFileName, tstFileName)
-    
+
 # ------------------------------------------- #
 # this doesn't run, when invoked as a library
 if __name__ == '__main__':
