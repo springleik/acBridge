@@ -50,7 +50,7 @@ waves.
 def fillInDetails (aMeas) -> dict:
     sampRate = aMeas ['sampleRate']
     reqFreq = aMeas ['requestFreq']
-    cellQuartWaves = 4 * int ((reqFreq / 2 - 1) / 4) + 1
+    cellQuartWaves = 4 * int ((reqFreq / 1.7 - 1) / 4) + 1
     quartWaveTime = 1 / reqFreq / 4
     cellTime = cellQuartWaves * quartWaveTime
     cellSamp = int (cellTime * sampRate)

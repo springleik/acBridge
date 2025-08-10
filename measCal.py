@@ -19,6 +19,10 @@ def customJson (obj):
         return obj
 
 # check for command line args
+# TODO I've now forgotten why I needed two input files
+# TODO Let's try to make do with just one input file
+# TODO And consider having an output file with the cal matrix in it
+# TODO Or just add the cal matrix to the input file (decorate the tree)
 if len (sys.argv) != 3:
     print ('usage: python3 {} stimFileNoExt respFileNoExt'.format (sys.argv[0]))
     quit ()

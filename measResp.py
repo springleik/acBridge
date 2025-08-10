@@ -87,10 +87,10 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         burstFrameCount = delay + (2 * burstSamp)
         theMeas.update ({'bursts':[]})
         cursor = theMeas ['bursts']
-        ampl = theMeas ['amplitude']
         output = theMeas ['output']
         freq = theMeas ['actualFreq']
         refVec = [math.cos ((n + 0.5) * incr) for n in range (burstSamp)]
+        # print ("freq: {}, len(refVec): {}".format (freq, len(refVec)))
 
         # iterate over tonebursts
         for j in range(2):
@@ -131,8 +131,15 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         # complex valued measurements
         a = theMeas ['bursts'][0]['chans'][0]['rect']
         b = theMeas ['bursts'][1]['chans'][0]['rect']
-        # c = theMeas ['bursts'][0]['chans'][1]['rect']
-        # d = theMeas ['bursts'][1]['chans'][1]['rect']
+        c = theMeas ['bursts'][0]['chans'][1]['rect']
+        d = theMeas ['bursts'][1]['chans'][1]['rect']
+
+        # gather direct values for wireless verification
+        if False:
+            print (freq, abs(a), cmath.phase(a),
+            abs(b), cmath.phase(b),
+            abs(c), cmath.phase(c),
+            abs(d), cmath.phase(d),)
 
         # gather ratios with respect to 'a' for calibration
         if False:
@@ -149,13 +156,14 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
             print (freq, abs(e), cmath.phase(e), abs(f), cmath.phase(f))
 
         # simple ratio measurement, assumes like impedances
-        if False:
+        if True:
             ratio = b / a
-            print (freq, a.real, a.imag, b.real, b.imag, ratio.real, ratio.imag)
+            print (freq, a.real, a.imag, b.real, b.imag,
+                ratio.real, ratio.imag)
 
         # gather impedance ratio and time constant for measurement
         # assumes resistor on left output and capacitor on right
-        if True:
+        if False:
             ratio = b / a
             omega = complex (0, 2 * math.pi * freq)
             tau = ratio / omega
