@@ -70,8 +70,11 @@ for aFreq in freqList:
     firstLeft = 0+0j
     secondLeft = 0+0j
     for i in range (len (matchList)):
-        firstLeft += complex (*matchList [i]['bursts'][0]['chans'][0]['rect'])
-        secondLeft += complex (*matchList [i]['bursts'][1]['chans'][0]['rect'])
+        x = complex (*matchList [i]['bursts'][0]['chans'][0]['rect'])
+        y = complex (*matchList [i]['bursts'][1]['chans'][0]['rect'])
+        print (x.real, x.imag, y.real, y.imag)
+        firstLeft += x
+        secondLeft += y
 
     # gather right output measurements from response tree
     fragMent = {'requestFreq': aFreq, 'output': 'right'}
@@ -81,8 +84,11 @@ for aFreq in freqList:
     firstRight = 0+0j
     secondRight = 0+0j
     for i in range (len (matchList)):
-        firstRight += complex (*matchList [i]['bursts'][0]['chans'][0]['rect'])
-        secondRight += complex (*matchList [i]['bursts'][1]['chans'][0]['rect'])
+        x = complex (*matchList [i]['bursts'][0]['chans'][0]['rect'])
+        y = complex (*matchList [i]['bursts'][1]['chans'][0]['rect'])
+        print (x.real, x.imag, y.real, y.imag)
+        firstRight += x
+        secondRight += y
 
     # show averages, normalized and inverted, as JSON text
     result = numpy.array ([[firstLeft,secondLeft],[firstRight,secondRight]])
