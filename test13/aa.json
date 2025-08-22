@@ -1,0 +1,47 @@
+[
+  {
+    "skip": "connect detector to left output channel",
+    "output": "none"
+  },
+  {
+    "requestFreq": 15.915494,
+    "amplitude": 4000000,
+    "output": "left"
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 159.15494
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 1591.5494
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 15915.494
+  },
+  {},{},{},{},
+
+  {
+    "wait": "connect detector to right output channel",
+    "output": "none"
+  },
+  {
+    "requestFreq": 15.915494,
+    "amplitude": 4000000,
+    "output": "right"
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 159.15494
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 1591.5494
+  },
+  {},{},{},{},
+  {
+    "requestFreq": 15915.494
+  },
+  {},{},{},{}
+]
