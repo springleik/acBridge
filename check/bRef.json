@@ -1,7 +1,7 @@
 [
   {
-    "amplitude": 4000000,
     "requestFreq": 159.15494,
+    "amplitude": 4000000,
     "sampleRate": 44100,
     "startDelay": 44100,
     "calMatrix": [
