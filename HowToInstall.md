@@ -2,7 +2,7 @@
 
 The _acBridge_ project consists of several Python scripts, and is installed by cloning a copy of the project.
 ```
-stargate@RasPi5:~/GitHub $ git clone https://github.com/springleik/acBridge.git
+gate@RasPi5:~/GitHub $ git clone https://github.com/springleik/acBridge.git
 Cloning into 'acBridge'...
 remote: Enumerating objects: 383, done.
 remote: Counting objects: 100% (58/58), done.
@@ -13,7 +13,7 @@ Resolving deltas: 100% (221/221), done.
 ```
 To test the installation, clone a copy of the adjacent _PompTree_ project.
 ```
-stargate@RasPi5:~/GitHub $ git clone https://github.com/springleik/PompTree.git
+gate@RasPi5:~/GitHub $ git clone https://github.com/springleik/PompTree.git
 Cloning into 'PompTree'...
 remote: Enumerating objects: 134, done.
 remote: Counting objects: 100% (134/134), done.
@@ -24,9 +24,7 @@ Resolving deltas: 100% (79/79), done.
 ```
 Navigate to the _check_ folder, clean any previous results, and run the stimulus generator to create a wave file of tone bursts.
 ```
-gate@RasPi5:~/GitHub $ cd acBridge/
-
-gate@RasPi5:~/GitHub/acBridge $ cd check/
+gate@RasPi5:~/GitHub $ cd acBridge/check/
 
 gate@RasPi5:~/GitHub/acBridge/check $ ls -la
 total 20
@@ -41,11 +39,11 @@ Loading setup file 'a.json'
 Wrote wave file 'a.wav' with 1147632 bytes of data
 Writing setup file 'b.json'
 ```
-We don't need to use the sound hardware for test purposes, just copy the stimulus file to the response file.
+You don't need to use the sound hardware for test purposes, just copy the stimulus file to the response file.
 ```
 gate@RasPi5:~/GitHub/acBridge/check $ cp a.wav b.wav
 ```
-Now we run the response analyzer to see what was in the stimulus file.
+Now run the response analyzer to see what was in the stimulus file.
 ```
 gate@RasPi5:~/GitHub/acBridge/check $ ../measResp.py b c
 Loading setup file 'b.json'
@@ -63,11 +61,11 @@ Expected 191272 frames, found 191272
 159.162527 4000000.0115386085 8.019616032637323e-08 0.0 0.0 0.0 0.0
 Writing setup file 'c.json'
 ```
-Finally we use the _CompTree_ script to compare the stimulus and analysis output files with checked-in reference files.
+Finally, use the _CompTree_ script to compare the stimulus and analysis output files with checked-in references.
 ```
 gate@RasPi5:~/GitHub/acBridge/check $ ../../PompTree/CompTree.py bRef.json b.json
 []
 gate@RasPi5:~/GitHub/acBridge/check $ ../../PompTree/CompTree.py cRef.json c.json 1e-8
 []
 ```
-The empty square brackets "[]" mean that no differences were found between the new output files and the archived reference files. In the second comparison we used the optional third argument to set an error delta, allowing test and reference to differ by up to $1 \times 10^{-8}$. Try removing the third argument to see what size the differences are.
+The empty square brackets "[]" mean that no differences were found between the new output files and the archived reference files. In the second comparison we used the optional third argument to set an error delta, allowing test and reference to differ by up to $1 \times 10^{-8}$. Try removing the third argument to see differences that were hidden by the error delta.
