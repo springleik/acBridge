@@ -1,6 +1,6 @@
 # How to Install acBridge
 
-The _acBridge_ project consists of several Python scripts which can generate a stimulus wave file, analyze a response wave file, and calibrate a digital-to-analog converter (DAC). The following code blocks show everything in the terminal window including the console prompt, commands you type, and console output resulting from your commands. While these were copied from a MacOS terminal window, the steps are the same for Windows and Linux. Start by cloning the _acBridge_ project repository.
+The _acBridge_ project consists of several Python scripts which can generate a stimulus wave file, analyze a response wave file, and calibrate a digital-to-analog converter (DAC). The following code blocks show everything in the terminal window including the console prompt, commands you type, and console output resulting from your commands. While these were copied from a MacOS terminal window, the steps are the same for Windows and Linux. You'll need to have the _numpy_ library for Python installed. Start by cloning the _acBridge_ project repository.
 ```
 MarksiMac:GitHub williamm$ git clone https://github.com/springleik/acBridge.git
 Cloning into 'acBridge'...
