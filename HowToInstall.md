@@ -107,9 +107,9 @@ Writing setup file 'c1.json'
 ```
 Run _CompTree.py_ to compare the stimulus and analysis output files with the checked-in reference files.
 ```
-MarksiMac:check williamm$ ../../PompTree/CompTree.py b1Ref.json b1.json
+MarksiMac:check williamm$ python3 ../../PompTree/CompTree.py b1Ref.json b1.json
 []
-MarksiMac:check williamm$ ../../PompTree/CompTree.py c1Ref.json c1.json 1e-8
+MarksiMac:check williamm$ python3 ../../PompTree/CompTree.py c1Ref.json c1.json 1e-8
 []
 ```
-Now you are ready to try out your sound hardware. Connect your audio line output to line input. On most desktop computers this would be done with a stereo 3.5 mm plug-to-plug cable. Delete the response wave files _b.wav_ and _b1.wav_, and record new ones while playing back the stimulus files. The task here is to find out whether the playback sample clock and record sample clock are the same.
+Now you are ready to try out your sound hardware. Connect the audio line output to line input. On most desktop computers this would be done with a stereo 3.5 mm plug-to-plug cable. Delete the response wave files _b.wav_ and _b1.wav_, and record new ones while playing back their respective stimulus files. The task here is to find out whether the playback sample clock and record sample clock are the same.
