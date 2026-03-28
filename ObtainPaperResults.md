@@ -1,15 +1,13 @@
 # How to Obtain the Results of the IEEE Paper
-
 You can use the Python scripts in this repo to obtain the results given in my paper "Digitizing Bridge Measures RC Time Constants" in the IEEE Transactions on Instrumentation and Measurement, vol. 75, pp. 1-8, 2026, doi: [10.1109/TIM.2026.3670597](https://doi.org/10.1109/TIM.2026.3670597).
 
 ## Table I
-
 Table I gives the result of obtaining a normalized calibration matrix which accounts for channel imbalance, phase shift, and crosstalk between the two output channels of a stereo digital-to-analog converter (DAC). First navigate to the directory _TableI_.
 ```
 MarksiMac:acBridge williamm$ cd TableI
 ```
 
-Then run a Python script to analyze the existing response file _c.json_.  The JSON text at the end of the console output contains the calibration coefficients in Table I. The Python output has as many as 16 digits, while the coefficients in Table I were trimmed to 9 places for publication.
+Then run a Python script to analyze the existing analysis file _c.json_.  The JSON text at the end of the console output contains the calibration coefficients in Table I. The Python output has as many as 16 digits, while the coefficients in Table I were trimmed to 9 places for publication.
 ```
 MarksiMac:TableI williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
@@ -53,8 +51,7 @@ Frequency list:  [159.15494]
 ```
 
 ## Table II
-
-Table II verifies that the calibration of Table I actually worked. Stimulus setup file _a.json_ includes the calibration matrix coefficients in Table 1, which were applied to create file _a.wav_ containing the stimulus tone bursts. File _b.wav_ contains the response obtained with the digitizing bridge in the paper. Now we run a Python script to analyze the response wave file to obtain the response setup file _c.json_.
+Table II verifies that the calibration of Table I actually works. Stimulus setup file _a.json_ includes the calibration matrix coefficients in Table 1, which were applied to create file _a.wav_ containing the stimulus tone bursts. File _b.wav_ contains the response obtained with the digitizing bridge in the paper. Now we run a Python script on the response wave file to obtain the analysis file _c.json_.
 ```
 MarksiMac:TableII williamm$ python3 ../measResp.py b c
 Loading setup file 'b.json'
@@ -82,7 +79,7 @@ Expected 2133220 frames, found 2335637
 Writing setup file 'c.json'
 ```
 
-Finally we run a Python script to obtain the calibration coefficients given in Table II, which show that the calibration worked in that the new correction matrix is close to the identity matrix.
+Finally we run a Python script to obtain the calibration coefficients given in Table II which show that the calibration worked, in that the new correction matrix is close to the identity matrix.
 ```MarksiMac:TableII williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
 Frequency list:  [159.15494]
@@ -124,5 +121,127 @@ Frequency list:  [159.15494]
 ```
 
 ## Table III
+Table III checks the apparatus by measuring the impedance ratio of an inductive voltage divider (IVD) configured with a 1:1 ratio. To be sure the IVD is really 1:1 we run the experiment twice, swapping the end terminals in between. Navigate to the Table III folder.
+```
+MarksiMac:acBridge williamm$ cd TableIII
+```
+
+We run a Python script to measure the impedance ratio in the 'forward' direction.
+```
+MarksiMac:TableIII williamm$ ../measResp.py b c
+Loading setup file 'b.json'
+Reading wave file 'b.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 2335637,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 2133220 frames, found 2335637
+159.162527 3264210.6226866087 1286616.072150061 -0.8823721179195707 2.9728844725546892 7.674068423673857e-08 8.805034377537624e-07
+159.162527 3264224.3597573442 1286627.7761577086 -1.8875363425414209 4.056531729223256 -7.652737290570274e-08 1.2728885992226913e-06
+159.162527 3264230.724875774 1286630.5083721038 -1.7810517104001533 3.372778736217919 -1.197538110111342e-07 1.0804559910797642e-06
+159.162527 3264263.725769937 1286646.749246699 -1.8906760362064359 2.5064776653328114 -2.3935855548361827e-07 8.621998126044043e-07
+159.162527 3264220.8001159485 1286633.3206773468 -1.7442540483175488 2.3484034066017085 -2.1705719954986048e-07 8.049934710121733e-07
+159.162527 0.3946613261633367 2.6019965436163845 3264240.5521326098 1286640.9346652522 669363.0762417102 -1152987.2474805983
+159.162527 -1.0523726298560356 3.2654139024897457 3264248.8389989333 1286647.544456274 65098.00818660256 -1020622.8982278683
+159.162527 -0.12267175085089933 2.3814801147300817 3264267.307580567 1286652.7671487443 468426.3635637311 -1394817.4369367498
+159.162527 -1.3553622384483512 2.191252119329641 3264265.973541122 1286657.8232557073 -241748.70184891557 -1340151.088027048
+159.162527 -0.07241901719384783 3.135955649397676 3264228.13074566 1286634.2572822114 386040.9888227297 -1049818.686174683
+Writing setup file 'c.json'
+```
+
+Then we run the Python script again to obtain the impedance ratio in the 'reverse' direction.
+```
+MarksiMac:TableIII williamm$ ../measResp.py d e
+Loading setup file 'd.json'
+Reading wave file 'd.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 2336555,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 2133220 frames, found 2336555
+159.162527 1632030.0573014182 643275.6758955466 1632048.8557278572 643277.1613397475 1.0000102800776236 -3.1417801759214832e-06
+159.162527 1632045.26127577 643284.717107741 1632068.4590249122 643289.1574289381 1.0000132307596756 -2.494308457402759e-06
+159.162527 1632044.2842844045 643288.6980716346 1632062.3041720737 643291.2531589117 1.0000100906692337 -2.4117765889094323e-06
+159.162527 1632043.2938087801 643292.748917376 1632048.9245754054 643287.9014843529 1.000001972884383 -3.747802073854692e-06
+159.162527 1632042.77147058 643293.2050001436 1632052.648744146 643290.2716664582 1.000004625068785 -3.6203763226921716e-06
+159.162527 1632037.2945388143 643290.585386675 1632051.9474268148 643292.3341749352 1.000008136509699 -2.135583444543164e-06
+159.162527 1632043.3078954483 643296.0475192103 1632059.676317248 643293.084353658 1.0000080612918563 -4.99310447334337e-06
+159.162527 1632050.1341720363 643295.6535144709 1632058.84866012 643292.6222576469 1.000003987918229 -3.4292251017375197e-06
+159.162527 1632049.4939433394 643291.8973497875 1632063.1212083646 643293.083075195 1.0000074748370924 -2.2197713620171452e-06
+159.162527 1632050.9697143638 643297.4917617658 1632058.3768340803 643294.8411130953 1.0000033741362646 -2.9540879273209837e-06
+Writing setup file 'e.json'
+```
+The numbers presented in Table III aren't calculated in the Python script, but rather in the Excel spreadsheet given as a worked example in the same folder.
 
 ## Table IV
+Table IV shows the measured time constant of 10 megOhm resistor and 100 picoFarad capacitor connected as branch arms in the digitizing bridge. Navigate to the Table IV folder, to find existing stimulus and response files.
+```
+MarksiMac:acBridge williamm$ cd TableIV
+```
+
+Then run the Python script to create the analysis file _c.json_.
+```
+MarksiMac:TableIV williamm$ ../measResp.py b c
+Loading setup file 'b.json'
+Reading wave file 'b.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 1973252,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 1912720 frames, found 1973252
+159.162527 848895.0382335531 -748338.3004091838 746994.6509339986 850468.447714739 -0.0018100891930756893 1.0002578062080631
+159.162527 848900.8387011966 -748337.3493202257 746994.0288059463 850473.136270383 -0.001809214403091004 1.0002572678085222
+159.162527 848905.4925234325 -748342.8308265946 746995.7080396662 850473.4382195823 -0.0018091806776418878 1.0002521579943253
+159.162527 848906.5040013448 -748341.9480132946 746999.9798112204 850477.8280549205 -0.0018077374100355656 1.0002574115260316
+159.162527 848909.8073293485 -748346.1492464475 746994.2825937021 850473.1649976186 -0.0018096354847588524 1.0002463440991087
+159.162527 848908.4943391046 -748342.8850783978 746999.0944415597 850475.318962236 -0.0018063127280443865 1.0002533645808789
+159.162527 848906.3624179191 -748340.594807586 747005.3623486089 850479.1285924682 -0.0018041165787790387 1.000262305138401
+159.162527 848912.1438816763 -748344.58971075 747001.1429815647 850476.774791654 -0.0018047964714625537 1.0002521123494017
+159.162527 848907.8802535416 -748340.3301735349 747006.2499052602 850483.8335664879 -0.0018052133871492477 1.0002650927574215
+159.162527 848910.0664422482 -748346.3627840437 747001.2880938938 850476.6498797201 -0.001807017744359473 1.0002524511010835
+Writing setup file 'c.json'
+```
+
+As a cross-check the experiment was done twice, with the capacitor and resistor positions swapped in between. The Python script can be run on the extra response files to obtain the reverse result.
+```
+MarksiMac:TableIV williamm$ ../measResp.py d e
+Loading setup file 'd.json'
+Reading wave file 'd.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 1996281,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 1912720 frames, found 1996281
+159.162527 988340.4776957865 -527268.0876628237 -528925.5246927965 -987148.8100870519 -0.0018061753792673917 -0.9997578476487349
+159.162527 988349.1560108186 -527272.0447010758 -528921.8600766923 -987137.0034514458 -0.0018087644258464033 -0.999738511799598
+159.162527 988341.0442130278 -527270.0201150879 -528922.5937646636 -987145.1620999194 -0.0018041137815543132 -0.9997524872566502
+159.162527 988356.359743858 -527274.6121216615 -528927.2598031173 -987154.853577112 -0.0018065092849424307 -0.9997480871329667
+159.162527 988349.5906560783 -527269.3445917836 -528925.1286435927 -987148.6886287363 -0.0018087390190797182 -0.9997498765694333
+159.162527 988358.1308842408 -527272.8931862846 -528925.0013985133 -987148.7505121405 -0.001809391242696141 -0.999741654964249
+159.162527 988350.1254320052 -527267.0741656971 -528926.4926065487 -987156.7879087359 -0.00180842353222757 -0.9997573579115252
+159.162527 988354.6287952923 -527270.3738834644 -528923.5378443139 -987149.0802326526 -0.0018086194862769402 -0.9997451146758886
+159.162527 988350.4693910052 -527267.7086261432 -528918.5483215692 -987141.6830882131 -0.0018081571444896801 -0.9997415861718177
+159.162527 988352.742612498 -527267.2098100139 -528921.5827182072 -987148.2505869266 -0.0018091324029775573 -0.9997464510184751
+Writing setup file 'e.json'
+```
+Now comes the tedious part: copy and paste the console output into a spreadsheet and work out the time constant of the RC pair. This part of the measurement could be automated, but was not ready in time for publication. The Excel file in the folder contains a worked example, which gives the answers shown in Table IV.
