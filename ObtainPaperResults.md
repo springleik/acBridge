@@ -2,10 +2,11 @@
 
 You can use the Python scripts in this repo to obtain the results given in my paper "Digitizing Bridge Measures RC Time Constants" in the IEEE Transactions on Instrumentation and Measurement, vol. 75, pp. 1-8, 2026, doi: [10.1109/TIM.2026.3670597](https://doi.org/10.1109/TIM.2026.3670597).
 
-** Table I
+## Table I
+
 Table I gives the result of obtaining a normalized calibration matrix which accounts for channel imbalance, phase shift, and crosstalk between the two output channels of a stereo digital-to-analog converter (DAC). The JSON text at the end of the console output contains the calibration coefficients in Table I. The Python output has as many as 16 digits, while the coefficients were trimmed to 9 places for publication.
 ```
-MarksiMac:TableI williamm$ ../measCal.py c
+MarksiMac:TableI williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
 Loading response setup file 'c.json'
 Frequency list:  [159.15494]
@@ -46,8 +47,8 @@ Frequency list:  [159.15494]
 }
 ```
 
-** Table II
+## Table II
 
-** Table III
+## Table III
 
-** Table IV
+## Table IV
