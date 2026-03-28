@@ -126,7 +126,7 @@ Table III checks the apparatus by measuring the impedance ratio of an inductive 
 MarksiMac:acBridge williamm$ cd TableIII
 ```
 
-We run a Python script to measure the impedance ratio in the 'forward' direction.
+We run a Python script to measure the impedance ratio in the 'forward' direction. Stimulus and response wave files are found in the same folder.
 ```
 MarksiMac:TableIII williamm$ ../measResp.py b c
 Loading setup file 'b.json'
@@ -184,7 +184,7 @@ Writing setup file 'e.json'
 The numbers presented in Table III aren't calculated in the Python script, but rather in the Excel spreadsheet given as a worked example in the same folder.
 
 ## Table IV
-Table IV shows the measured time constant of 10 megOhm resistor and 100 picoFarad capacitor connected as branch arms in the digitizing bridge. Navigate to the Table IV folder, to find existing stimulus and response files.
+Table IV shows the measured time constant of a 10 megOhm resistor and a 100 picoFarad capacitor connected as branch arms in the digitizing bridge. Navigate to the Table IV folder, to find existing stimulus and response files.
 ```
 MarksiMac:acBridge williamm$ cd TableIV
 ```
