@@ -4,7 +4,12 @@ You can use the Python scripts in this repo to obtain the results given in my pa
 
 ## Table I
 
-Table I gives the result of obtaining a normalized calibration matrix which accounts for channel imbalance, phase shift, and crosstalk between the two output channels of a stereo digital-to-analog converter (DAC). The JSON text at the end of the console output contains the calibration coefficients in Table I. The Python output has as many as 16 digits, while the coefficients were trimmed to 9 places for publication.
+Table I gives the result of obtaining a normalized calibration matrix which accounts for channel imbalance, phase shift, and crosstalk between the two output channels of a stereo digital-to-analog converter (DAC). First navigate to the directory _TableI_.
+```
+MarksiMac:acBridge williamm$ cd TableI
+```
+
+Then run a Python script to analyze the existing response file _c.json_.  The JSON text at the end of the console output contains the calibration coefficients in Table I. The Python output has as many as 16 digits, while the coefficients in Table I were trimmed to 9 places for publication.
 ```
 MarksiMac:TableI williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
@@ -48,6 +53,75 @@ Frequency list:  [159.15494]
 ```
 
 ## Table II
+
+Table II verifies that the calibration of Table I actually worked. Stimulus setup file _a.json_ includes the calibration matrix coefficients in Table 1, which were applied to create file _a.wav_ containing the stimulus tone bursts. File _b.wav_ contains the response obtained with the digitizing bridge in the paper. Now we run a Python script to analyze the response wave file to obtain the response setup file _c.json_.
+```
+MarksiMac:TableII williamm$ python3 ../measResp.py b c
+Loading setup file 'b.json'
+Reading wave file 'b.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 2335637,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 2133220 frames, found 2335637
+159.162527 3264210.6226866087 1286616.072150061 -0.8823721179195707 2.9728844725546892 7.674068423673857e-08 8.805034377537624e-07
+159.162527 3264224.3597573442 1286627.7761577086 -1.8875363425414209 4.056531729223256 -7.652737290570274e-08 1.2728885992226913e-06
+159.162527 3264230.724875774 1286630.5083721038 -1.7810517104001533 3.372778736217919 -1.197538110111342e-07 1.0804559910797642e-06
+159.162527 3264263.725769937 1286646.749246699 -1.8906760362064359 2.5064776653328114 -2.3935855548361827e-07 8.621998126044043e-07
+159.162527 3264220.8001159485 1286633.3206773468 -1.7442540483175488 2.3484034066017085 -2.1705719954986048e-07 8.049934710121733e-07
+159.162527 0.3946613261633367 2.6019965436163845 3264240.5521326098 1286640.9346652522 669363.0762417102 -1152987.2474805983
+159.162527 -1.0523726298560356 3.2654139024897457 3264248.8389989333 1286647.544456274 65098.00818660256 -1020622.8982278683
+159.162527 -0.12267175085089933 2.3814801147300817 3264267.307580567 1286652.7671487443 468426.3635637311 -1394817.4369367498
+159.162527 -1.3553622384483512 2.191252119329641 3264265.973541122 1286657.8232557073 -241748.70184891557 -1340151.088027048
+159.162527 -0.07241901719384783 3.135955649397676 3264228.13074566 1286634.2572822114 386040.9888227297 -1049818.686174683
+Writing setup file 'c.json'
+```
+
+Finally we run a Python script to obtain the calibration coefficients given in Table II, which show that the calibration worked in that the new correction matrix is close to the identity matrix.
+```MarksiMac:TableII williamm$ python3 ../measCal.py c
+Loading stimulus setup file 'c.json'
+Frequency list:  [159.15494]
+3264210.6226866087 1286616.072150061 -0.8823721179195707 2.9728844725546892
+3264224.3597573442 1286627.7761577086 -1.8875363425414209 4.056531729223256
+3264230.724875774 1286630.5083721038 -1.7810517104001533 3.372778736217919
+3264263.725769937 1286646.749246699 -1.8906760362064359 2.5064776653328114
+3264220.8001159485 1286633.3206773468 -1.7442540483175488 2.3484034066017085
+0.3946613261633367 2.6019965436163845 3264240.5521326098 1286640.9346652522
+-1.0523726298560356 3.2654139024897457 3264248.8389989333 1286647.544456274
+-0.12267175085089933 2.3814801147300817 3264267.307580567 1286652.7671487443
+-1.3553622384483512 2.191252119329641 3264265.973541122 1286657.8232557073
+-0.07241901719384783 3.135955649397676 3264228.13074566 1286634.2572822114
+{
+  "requestFreq": 159.15494,
+  "calMatrix": [
+    [
+      [
+        0.9999999999992301,
+        7.512919346482792e-14
+      ],
+      [
+        1.1518884373721794e-07,
+        -9.80201389674453e-07
+      ]
+    ],
+    [
+      [
+        -1.6667723159715123e-07,
+        -7.661070195750265e-07
+      ],
+      [
+        0.9999930174791458,
+        -2.081949633808707e-06
+      ]
+    ]
+  ]
+}
+```
 
 ## Table III
 
