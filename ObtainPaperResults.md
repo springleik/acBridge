@@ -53,6 +53,11 @@ Frequency list:  [159.15494]
 ## Table II
 Table II verifies that the calibration of Table I actually works. Stimulus setup file _a.json_ includes the calibration matrix coefficients in Table 1, which were applied to create file _a.wav_ containing the stimulus tone bursts. File _b.wav_ contains the response obtained with the digitizing bridge in the paper. Now we run a Python script on the response wave file to obtain the analysis file _c.json_.
 ```
+MarksiMac:TableI williamm$ cd ../TableII
+
+```
+
+```
 MarksiMac:TableII williamm$ python3 ../measResp.py b c
 Loading setup file 'b.json'
 Reading wave file 'b.wav'
@@ -80,7 +85,8 @@ Writing setup file 'c.json'
 ```
 
 Finally we run a Python script to obtain the calibration coefficients given in Table II which show that the calibration worked, in that the new correction matrix is close to the identity matrix.
-```MarksiMac:TableII williamm$ python3 ../measCal.py c
+```
+MarksiMac:TableII williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
 Frequency list:  [159.15494]
 3264210.6226866087 1286616.072150061 -0.8823721179195707 2.9728844725546892
@@ -123,12 +129,12 @@ Frequency list:  [159.15494]
 ## Table III
 Table III checks the apparatus by measuring the impedance ratio of an inductive voltage divider (IVD) configured with a 1:1 ratio. To be sure the IVD is really 1:1 we run the experiment twice, swapping the end terminals in between. Navigate to the Table III folder.
 ```
-MarksiMac:acBridge williamm$ cd TableIII
+MarksiMac:acBridge williamm$ cd ../TableIII
 ```
 
 We run a Python script to measure the impedance ratio in the 'forward' direction. Stimulus and response wave files are found in the same folder.
 ```
-MarksiMac:TableIII williamm$ ../measResp.py b c
+MarksiMac:TableIII williamm$ python3 ../measResp.py b c
 Loading setup file 'b.json'
 Reading wave file 'b.wav'
 Wave file parameters:
@@ -156,7 +162,7 @@ Writing setup file 'c.json'
 
 Then we run the Python script again to obtain the impedance ratio in the 'reverse' direction.
 ```
-MarksiMac:TableIII williamm$ ../measResp.py d e
+MarksiMac:TableIII williamm$ python3 ../measResp.py d e
 Loading setup file 'd.json'
 Reading wave file 'd.wav'
 Wave file parameters:
@@ -186,12 +192,12 @@ The numbers presented in Table III aren't calculated in the Python script, but r
 ## Table IV
 Table IV shows the measured time constant of a 10 megOhm resistor and a 100 picoFarad capacitor connected as branch arms in the digitizing bridge. Navigate to the Table IV folder, to find existing stimulus and response files.
 ```
-MarksiMac:acBridge williamm$ cd TableIV
+MarksiMac:acBridge williamm$ cd ../TableIV
 ```
 
 Then run the Python script to create the analysis file _c.json_.
 ```
-MarksiMac:TableIV williamm$ ../measResp.py b c
+MarksiMac:TableIV williamm$ python3 ../measResp.py b c
 Loading setup file 'b.json'
 Reading wave file 'b.wav'
 Wave file parameters:
@@ -219,7 +225,7 @@ Writing setup file 'c.json'
 
 As a cross-check the experiment was done twice, with the capacitor and resistor positions swapped in between. The Python script can be run on the extra response files to obtain the reverse result.
 ```
-MarksiMac:TableIV williamm$ ../measResp.py d e
+MarksiMac:TableIV williamm$ python3 ../measResp.py d e
 Loading setup file 'd.json'
 Reading wave file 'd.wav'
 Wave file parameters:
