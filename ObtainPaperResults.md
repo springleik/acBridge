@@ -11,7 +11,6 @@ Then run a Python script to analyze the existing analysis file _c.json_.  The JS
 ```
 MarksiMac:TableI williamm$ python3 ../measCal.py c
 Loading stimulus setup file 'c.json'
-Loading response setup file 'c.json'
 Frequency list:  [159.15494]
 689442.9504597873 -3438748.407541822 2.8961486478172183 5.602626267082165
 689440.0964874191 -3438703.0535648605 2.7253433676136356 6.227260394429701
