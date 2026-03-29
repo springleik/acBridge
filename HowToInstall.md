@@ -36,6 +36,8 @@ Wrote wave file 'a.wav' with 1147632 bytes of data
 Writing setup file 'b.json'
 ```
 
+![File a.wav with one tone burst pair.](a.png)
+
 For the first check you won't need the sound hardware, just copy the stimulus file to the response file.
 ```
 MarksiMac:check williamm$ cp a.wav b.wav
@@ -75,6 +77,8 @@ Loading setup file 'a1.json'
 Wrote wave file 'a1.wav' with 4576608 bytes of data
 Writing setup file 'b1.json'
 ```
+
+![File a1.wav with four tone burst pairs.](a1.png)
 
 Again bypassing the hardware, copy the stimulus file to the response file.
 ```
