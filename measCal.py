@@ -18,40 +18,24 @@ def customJson (obj):
     else:
         return obj
 
-# check for command line args
-# TODO I've now forgotten why I needed two input files
-# TODO Let's try to make do with just one input file
-# TODO And consider having an output file with the cal matrix in it
-# TODO Or just add the cal matrix to the input file (decorate the tree)
-if len (sys.argv) != 3:
-    print ('usage: python3 {} stimFileNoExt respFileNoExt'.format (sys.argv[0]))
+# check for command line arg
+if len (sys.argv) != 2:
+    print ('usage: python3 {} respFileNoExt'.format (sys.argv[0]))
     quit ()
-stimFileName = sys.argv[1]  # stimulus setup file
-respFileName = sys.argv[2]  # response setup file
+respFileName = sys.argv[1]  # stimulus setup file
 
-# load setup files
-stimTree = []
-respTree = []
-try:
-    with open (stimFileName + '.json', 'r') as setupFile:
-        stimTree = json.load (setupFile)
-        print ("Loading stimulus setup file '{}.json'".format (stimFileName))
-except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
-    print ("Failed to load stimulus setup file '{}.json'".format (stimFileName))
-    print (e)
-    quit ()
-
+# load setup file
 try:
     with open (respFileName + '.json', 'r') as setupFile:
         respTree = json.load (setupFile)
-        print ("Loading response setup file '{}.json'".format (respFileName))
+        print ("Loading stimulus setup file '{}.json'".format (respFileName))
 except (FileNotFoundError, json.decoder.JSONDecodeError) as e:
     print ("Failed to load response setup file '{}.json'".format (respFileName))
     print (e)
     quit ()
 
 # gather a list of frequencies from the stimulus tree
-freqList = list (ct.locateKey ('requestFreq', stimTree))
+freqList = list (ct.locateKey ('requestFreq', respTree))
 freqList = list (dict.fromkeys (freqList))
 calList = []
 print ('Frequency list: ', freqList)
