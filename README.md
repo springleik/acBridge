@@ -5,4 +5,4 @@ I've posted some instructions here to install and run the project locally.
 - [How to install and run the _acBridge_ project.](HowToInstall.md)
 - [How to obtain results of the IEEE paper.](ObtainPaperResults.md)
 
-![AC Bridge Bench Setup.](IMG_5974.png)
+![AC Bridge Bench Setup.](IMG_5973.png)
