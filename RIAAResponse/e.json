@@ -1,0 +1,2001 @@
+[
+  {
+    "skip": "3 decades, 10 spot freqs per decade."
+  },
+  {
+    "skip": "Flat sweep without preemphasis, straight wire from output to input."
+  },
+  {
+    "requestFreq": 16,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 16.001451,
+    "cellSamples": 6201,
+    "countWaves": 9
+  },
+  {
+    "requestFreq": 20.1428065887067,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 20.143118,
+    "cellSamples": 4926,
+    "countWaves": 9
+  },
+  {
+    "requestFreq": 25.3582910793778,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 25.362768,
+    "cellSamples": 5651,
+    "countWaves": 13
+  },
+  {
+    "requestFreq": 31.9241970395021,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 31.929302,
+    "cellSamples": 5870,
+    "countWaves": 17
+  },
+  {
+    "requestFreq": 40.1901829041533,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 40.195312,
+    "cellSamples": 5760,
+    "countWaves": 21
+  },
+  {
+    "requestFreq": 50.5964425626941,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 50.597405,
+    "cellSamples": 6319,
+    "countWaves": 29
+  },
+  {
+    "requestFreq": 63.6971472885596,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 63.69847,
+    "cellSamples": 6404,
+    "countWaves": 37
+  },
+  {
+    "requestFreq": 80.1899573803636,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 80.201261,
+    "cellSamples": 6186,
+    "countWaves": 45
+  },
+  {
+    "requestFreq": 100.953175116831,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 100.968027,
+    "cellSamples": 6224,
+    "countWaves": 57
+  },
+  {
+    "requestFreq": 127.092517555885,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 127.10439,
+    "cellSamples": 6332,
+    "countWaves": 73
+  },
+  {
+    "requestFreq": 160,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 160.007022,
+    "cellSamples": 6408,
+    "countWaves": 93
+  },
+  {
+    "requestFreq": 201.428065887067,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 201.456349,
+    "cellSamples": 6403,
+    "countWaves": 117
+  },
+  {
+    "requestFreq": 253.582910793778,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 253.585211,
+    "cellSamples": 6478,
+    "countWaves": 149
+  },
+  {
+    "requestFreq": 319.241970395021,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 319.290075,
+    "cellSamples": 6388,
+    "countWaves": 185
+  },
+  {
+    "requestFreq": 401.901829041533,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 401.94414,
+    "cellSamples": 6391,
+    "countWaves": 233
+  },
+  {
+    "requestFreq": 505.964425626941,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 506.015299,
+    "cellSamples": 6471,
+    "countWaves": 297
+  },
+  {
+    "requestFreq": 636.971472885596,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 636.97723,
+    "cellSamples": 6456,
+    "countWaves": 373
+  },
+  {
+    "requestFreq": 801.899573803637,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 801.911445,
+    "cellSamples": 6448,
+    "countWaves": 469
+  },
+  {
+    "requestFreq": 1009.53175116831,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 1009.546788,
+    "cellSamples": 6476,
+    "countWaves": 593
+  },
+  {
+    "requestFreq": 1270.92517555885,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 1271.06546,
+    "cellSamples": 6462,
+    "countWaves": 745
+  },
+  {
+    "requestFreq": 1600,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 1600.019278,
+    "cellSamples": 6484,
+    "countWaves": 941
+  },
+  {
+    "requestFreq": 2014.28065887067,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 2014.313892,
+    "cellSamples": 6464,
+    "countWaves": 1181
+  },
+  {
+    "requestFreq": 2535.82910793779,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 2536.107678,
+    "cellSamples": 6473,
+    "countWaves": 1489
+  },
+  {
+    "requestFreq": 3192.41970395021,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 3192.521598,
+    "cellSamples": 6482,
+    "countWaves": 1877
+  },
+  {
+    "requestFreq": 4019.01829041533,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 4019.460315,
+    "cellSamples": 6476,
+    "countWaves": 2361
+  },
+  {
+    "requestFreq": 5059.64425626942,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 5059.790831,
+    "cellSamples": 6478,
+    "countWaves": 2973
+  },
+  {
+    "requestFreq": 6369.71472885597,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 6369.735421,
+    "cellSamples": 6482,
+    "countWaves": 3745
+  },
+  {
+    "requestFreq": 8018.99573803637,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 8019.263685,
+    "cellSamples": 6485,
+    "countWaves": 4717
+  },
+  {
+    "requestFreq": 10095.3175116831,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 10096.471541,
+    "cellSamples": 6483,
+    "countWaves": 5937
+  },
+  {
+    "requestFreq": 12709.2517555885,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 12710.556156,
+    "cellSamples": 6482,
+    "countWaves": 7473
+  },
+  {
+    "requestFreq": 16000,
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "calMatrix": [
+      [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    ],
+    "output": null,
+    "actualFreq": 16000.960204,
+    "cellSamples": 6483,
+    "countWaves": 9409
+  },
+  {
+    "wait": "Swap out straight wire, and insert RIAA phono stage"
+  },
+  {
+    "wait": "May need more time to change connections."
+  },
+  {
+    "skip": "Frequency sweep with RIAA preemphasis."
+  },
+  {
+    "requestFreq": 16,
+    "calMatrix": [
+      [
+        [
+          0.00125877850738458,
+          0.000368827111161245
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00125877850738458,
+          0.000368827111161245
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 16.001451,
+    "cellSamples": 6201,
+    "countWaves": 9
+  },
+  {
+    "requestFreq": 20.1428065887067,
+    "calMatrix": [
+      [
+        [
+          0.00126390260346224,
+          0.000464084666400604
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00126390260346224,
+          0.000464084666400604
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 20.143118,
+    "cellSamples": 4926,
+    "countWaves": 9
+  },
+  {
+    "requestFreq": 25.3582910793778,
+    "calMatrix": [
+      [
+        [
+          0.00127202039377616,
+          0.000583930714349605
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00127202039377616,
+          0.000583930714349605
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 25.362768,
+    "cellSamples": 5651,
+    "countWaves": 13
+  },
+  {
+    "requestFreq": 31.9241970395021,
+    "calMatrix": [
+      [
+        [
+          0.00128484660858383,
+          0.000734294719525441
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00128484660858383,
+          0.000734294719525441
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 31.929302,
+    "cellSamples": 5870,
+    "countWaves": 17
+  },
+  {
+    "requestFreq": 40.1901829041533,
+    "calMatrix": [
+      [
+        [
+          0.001305093989784,
+          0.000922766324013183
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.001305093989784,
+          0.000922766324013183
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 40.195312,
+    "cellSamples": 5760,
+    "countWaves": 21
+  },
+  {
+    "requestFreq": 50.5964425626941,
+    "calMatrix": [
+      [
+        [
+          0.00133697330623384,
+          0.0011583449512787
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00133697330623384,
+          0.0011583449512787
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 50.597405,
+    "cellSamples": 6319,
+    "countWaves": 29
+  },
+  {
+    "requestFreq": 63.6971472885596,
+    "calMatrix": [
+      [
+        [
+          0.0013870329951061,
+          0.00145190119516077
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.0013870329951061,
+          0.00145190119516077
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 63.69847,
+    "cellSamples": 6404,
+    "countWaves": 37
+  },
+  {
+    "requestFreq": 80.1899573803636,
+    "calMatrix": [
+      [
+        [
+          0.0014652269374265,
+          0.00181552470696741
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.0014652269374265,
+          0.00181552470696741
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 80.201261,
+    "cellSamples": 6186,
+    "countWaves": 45
+  },
+  {
+    "requestFreq": 100.953175116831,
+    "calMatrix": [
+      [
+        [
+          0.00158619274276985,
+          0.0022612206811225
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00158619274276985,
+          0.0022612206811225
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 100.968027,
+    "cellSamples": 6224,
+    "countWaves": 57
+  },
+  {
+    "requestFreq": 127.092517555885,
+    "calMatrix": [
+      [
+        [
+          0.00177086188836411,
+          0.00279965651311935
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00177086188836411,
+          0.00279965651311935
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 127.10439,
+    "cellSamples": 6332,
+    "countWaves": 73
+  },
+  {
+    "requestFreq": 160,
+    "calMatrix": [
+      [
+        [
+          0.00204718572545383,
+          0.0034360427585219
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00204718572545383,
+          0.0034360427585219
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 160.007022,
+    "cellSamples": 6408,
+    "countWaves": 93
+  },
+  {
+    "requestFreq": 201.428065887067,
+    "calMatrix": [
+      [
+        [
+          0.00244865155880141,
+          0.00416454086163124
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00244865155880141,
+          0.00416454086163124
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 201.456349,
+    "cellSamples": 6403,
+    "countWaves": 117
+  },
+  {
+    "requestFreq": 253.582910793778,
+    "calMatrix": [
+      [
+        [
+          0.00300612141025763,
+          0.0049597008393822
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00300612141025763,
+          0.0049597008393822
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 253.585211,
+    "cellSamples": 6478,
+    "countWaves": 149
+  },
+  {
+    "requestFreq": 319.241970395021,
+    "calMatrix": [
+      [
+        [
+          0.00373671015859221,
+          0.00577869235067329
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00373671015859221,
+          0.00577869235067329
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 319.290075,
+    "cellSamples": 6388,
+    "countWaves": 185
+  },
+  {
+    "requestFreq": 401.901829041533,
+    "calMatrix": [
+      [
+        [
+          0.0046206741777283,
+          0.00656469585170849
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.0046206741777283,
+          0.00656469585170849
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 401.94414,
+    "cellSamples": 6391,
+    "countWaves": 233
+  },
+  {
+    "requestFreq": 505.964425626941,
+    "calMatrix": [
+      [
+        [
+          0.00559556364178727,
+          0.00727876588657838
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00559556364178727,
+          0.00727876588657838
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 506.015299,
+    "cellSamples": 6471,
+    "countWaves": 297
+  },
+  {
+    "requestFreq": 636.971472885596,
+    "calMatrix": [
+      [
+        [
+          0.00656526699487971,
+          0.00792842964310751
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00656526699487971,
+          0.00792842964310751
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 636.97723,
+    "cellSamples": 6456,
+    "countWaves": 373
+  },
+  {
+    "requestFreq": 801.899573803637,
+    "calMatrix": [
+      [
+        [
+          0.00743679762452996,
+          0.00858493911779001
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00743679762452996,
+          0.00858493911779001
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 801.911445,
+    "cellSamples": 6448,
+    "countWaves": 469
+  },
+  {
+    "requestFreq": 1009.53175116831,
+    "calMatrix": [
+      [
+        [
+          0.00815069716874553,
+          0.0093677722983056
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00815069716874553,
+          0.0093677722983056
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 1009.546788,
+    "cellSamples": 6476,
+    "countWaves": 593
+  },
+  {
+    "requestFreq": 1270.92517555885,
+    "calMatrix": [
+      [
+        [
+          0.00869275612217029,
+          0.0104178093584295
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00869275612217029,
+          0.0104178093584295
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 1271.06546,
+    "cellSamples": 6462,
+    "countWaves": 745
+  },
+  {
+    "requestFreq": 1600,
+    "calMatrix": [
+      [
+        [
+          0.00908052569808185,
+          0.0118742858887908
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00908052569808185,
+          0.0118742858887908
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 1600.019278,
+    "cellSamples": 6484,
+    "countWaves": 941
+  },
+  {
+    "requestFreq": 2014.28065887067,
+    "calMatrix": [
+      [
+        [
+          0.00934683941538185,
+          0.0138770724195364
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00934683941538185,
+          0.0138770724195364
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 2014.313892,
+    "cellSamples": 6464,
+    "countWaves": 1181
+  },
+  {
+    "requestFreq": 2535.82910793779,
+    "calMatrix": [
+      [
+        [
+          0.0095244504296716,
+          0.0165718257382171
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.0095244504296716,
+          0.0165718257382171
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 2536.107678,
+    "cellSamples": 6473,
+    "countWaves": 1489
+  },
+  {
+    "requestFreq": 3192.41970395021,
+    "calMatrix": [
+      [
+        [
+          0.00964049004129386,
+          0.0201208701402048
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00964049004129386,
+          0.0201208701402048
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 3192.521598,
+    "cellSamples": 6482,
+    "countWaves": 1877
+  },
+  {
+    "requestFreq": 4019.01829041533,
+    "calMatrix": [
+      [
+        [
+          0.00971544776408485,
+          0.0247306595697864
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00971544776408485,
+          0.0247306595697864
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 4019.460315,
+    "cellSamples": 6476,
+    "countWaves": 2361
+  },
+  {
+    "requestFreq": 5059.64425626942,
+    "calMatrix": [
+      [
+        [
+          0.00976340213289441,
+          0.0306467280551545
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00976340213289441,
+          0.0306467280551545
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 5059.790831,
+    "cellSamples": 6478,
+    "countWaves": 2973
+  },
+  {
+    "requestFreq": 6369.71472885597,
+    "calMatrix": [
+      [
+        [
+          0.00979395060295885,
+          0.0381921599338409
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00979395060295885,
+          0.0381921599338409
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 6369.735421,
+    "cellSamples": 6482,
+    "countWaves": 3745
+  },
+  {
+    "requestFreq": 8018.99573803637,
+    "calMatrix": [
+      [
+        [
+          0.00981334315635769,
+          0.0477718058561771
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00981334315635769,
+          0.0477718058561771
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 8019.263685,
+    "cellSamples": 6485,
+    "countWaves": 4717
+  },
+  {
+    "requestFreq": 10095.3175116831,
+    "calMatrix": [
+      [
+        [
+          0.00982562578152059,
+          0.0598982246808784
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00982562578152059,
+          0.0598982246808784
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 10096.471541,
+    "cellSamples": 6483,
+    "countWaves": 5937
+  },
+  {
+    "requestFreq": 12709.2517555885,
+    "calMatrix": [
+      [
+        [
+          0.00983339002217846,
+          0.0752093330782404
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00983339002217846,
+          0.0752093330782404
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 12710.556156,
+    "cellSamples": 6482,
+    "countWaves": 7473
+  },
+  {
+    "requestFreq": 16000,
+    "calMatrix": [
+      [
+        [
+          0.00983829576016793,
+          0.0945220653338099
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0.00983829576016793,
+          0.0945220653338099
+        ]
+      ]
+    ],
+    "amplitude": 4000000,
+    "sampleRate": 44100,
+    "startDelay": 44100,
+    "output": null,
+    "actualFreq": 16000.960204,
+    "cellSamples": 6483,
+    "countWaves": 9409
+  }
+]

@@ -1,0 +1,69 @@
+[
+{"skip":"3 decades, 10 spot freqs per decade."}
+,{"requestFreq": 16}
+,{"requestFreq": 20.1428065887067}
+,{"requestFreq": 25.3582910793778}
+,{"requestFreq": 31.9241970395021}
+,{"requestFreq": 40.1901829041533}
+,{"requestFreq": 50.5964425626941}
+,{"requestFreq": 63.6971472885596}
+,{"requestFreq": 80.1899573803636}
+,{"requestFreq": 100.953175116831}
+,{"requestFreq": 127.092517555885}
+,{"requestFreq": 160}
+,{"requestFreq": 201.428065887067}
+,{"requestFreq": 253.582910793778}
+,{"requestFreq": 319.241970395021}
+,{"requestFreq": 401.901829041533}
+,{"requestFreq": 505.964425626941}
+,{"requestFreq": 636.971472885596}
+,{"requestFreq": 801.899573803637}
+,{"requestFreq": 1009.53175116831}
+,{"requestFreq": 1270.92517555885}
+,{"requestFreq": 1600}
+,{"requestFreq": 2014.28065887067}
+,{"requestFreq": 2535.82910793779}
+,{"requestFreq": 3192.41970395021}
+,{"requestFreq": 4019.01829041533}
+,{"requestFreq": 5059.64425626942}
+,{"requestFreq": 6369.71472885597}
+,{"requestFreq": 8018.99573803637}
+,{"requestFreq": 10095.3175116831}
+,{"requestFreq": 12709.2517555885}
+,{"requestFreq": 16000}
+
+,{"wait":"Run freq sweep twice with interval between,"}
+,{"wait":"Total interval 16 seconds."}
+
+,{"requestFreq": 16}
+,{"requestFreq": 20.1428065887067}
+,{"requestFreq": 25.3582910793778}
+,{"requestFreq": 31.9241970395021}
+,{"requestFreq": 40.1901829041533}
+,{"requestFreq": 50.5964425626941}
+,{"requestFreq": 63.6971472885596}
+,{"requestFreq": 80.1899573803636}
+,{"requestFreq": 100.953175116831}
+,{"requestFreq": 127.092517555885}
+,{"requestFreq": 160}
+,{"requestFreq": 201.428065887067}
+,{"requestFreq": 253.582910793778}
+,{"requestFreq": 319.241970395021}
+,{"requestFreq": 401.901829041533}
+,{"requestFreq": 505.964425626941}
+,{"requestFreq": 636.971472885596}
+,{"requestFreq": 801.899573803637}
+,{"requestFreq": 1009.53175116831}
+,{"requestFreq": 1270.92517555885}
+,{"requestFreq": 1600}
+,{"requestFreq": 2014.28065887067}
+,{"requestFreq": 2535.82910793779}
+,{"requestFreq": 3192.41970395021}
+,{"requestFreq": 4019.01829041533}
+,{"requestFreq": 5059.64425626942}
+,{"requestFreq": 6369.71472885597}
+,{"requestFreq": 8018.99573803637}
+,{"requestFreq": 10095.3175116831}
+,{"requestFreq": 12709.2517555885}
+,{"requestFreq": 16000}
+]
