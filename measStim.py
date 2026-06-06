@@ -11,11 +11,16 @@ M. Williamsen, 4 July 2025
 import wave, math, struct, json, sys, cmath, numpy
 
 # check for command line args
-if len (sys.argv) != 3:
-    print ('usage: python3 {} inFileNoExt outFileNoExt'.format (sys.argv[0]))
+if len (sys.argv) < 3:
+    print ('usage: python3 {} inFileNoExt outFileNoExt [mode]'.format (sys.argv[0]))
     quit ()
 inFileName = sys.argv[1]    # setup for creating stimulus file
 outFileName = sys.argv[2]   # setup for analyzing response file
+
+# optional third argument sets stimulus mode, default is mode 1
+mode = 1
+if len (sys.argv) > 3:
+    mode = int(sys.argv[3])
 
 # load setup description file
 theTree = {}
@@ -133,7 +138,10 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             # apply output calibration matrix
-            yNp = ampl * calMatrix @ numpy.array ([stimulus[n], 0+0j])
+            # mode 1 first burst left channel only
+            if 1 == mode: yNp = ampl * calMatrix @ numpy.array ([stimulus[n], 0+0j])
+            # mode 2 first burst both channels
+            elif 2 == mode: yNp = ampl * calMatrix @ numpy.array ([stimulus[n], stimulus[n]])
             bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
@@ -152,7 +160,10 @@ with wave.open(inFileName + '.wav', 'wb') as waveFile:
         aCycle = bytearray ()
         for n in range (burstSamp):
             # apply output calibration matrix
-            yNp = ampl * calMatrix @ numpy.array ([0+0j, stimulus[n]])
+            # mode 1 second burst right channel only
+            if 1 == mode: yNp = ampl * calMatrix @ numpy.array ([0+0j, stimulus[n]])
+            # mode 2 second burst both channels quiet
+            elif 2 == mode: yNp = ampl * calMatrix @ numpy.array ([0+0j, 0+0j])
             bytesL = math.floor (yNp[0].imag).to_bytes (3, byteorder = 'little', signed = True)
             bytesR = math.floor (yNp[1].imag).to_bytes (3, byteorder = 'little', signed = True)
             aSample = struct.pack ('<BBBBBB', *bytesL, *bytesR)
