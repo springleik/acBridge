@@ -4,8 +4,8 @@ This is a landing page for the No-Trim RIAA Phono Stage project. A pre-print of 
 
 GitHub may have some trouble rendering PDFs, please download the above document and render it locally. Thanks! Following snapshot is my listening setup:
 
-![RIAA Stage at Work](IMG_2913.png)
+![RIAA Stage at Work](RIAAResponse/IMG_2913.png)
 
 This snapshot is the insides of the RIAA phono preamp, based on the UAF42 universal active filter from Texas Instruments:
 
-![RIAA Stage Insides](IMG_2847.png)
+![RIAA Stage Insides](RIAAResponse/IMG_2847.png)
