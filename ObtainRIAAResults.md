@@ -54,7 +54,26 @@ The second argument gives the name _c_ to the analysis output description file _
 
 ![Flat Sweep with Outboard DAC](RIAAResponse/FlatSweep.png)
 
-Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. The first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA pre-emphasis curve, and is used to capture the transfer function response of the RIAA stage. Calculations for the pre-emphasis curve are posted here in the spreadsheet _RIAAPreemphasis.xlsx_. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. You can run a Python script to obtain the analysis output:
+Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. Stimulus setup description file _d.json_ specifies that the first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA pre-emphasis curve, and is used to capture the transfer function response of the RIAA stage. Calculations for the pre-emphasis curve are posted here in the spreadsheet _RIAAPreemphasis.xlsx_. The command line for generating the stimulus file follows:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measStim.py d e 2
+Loading setup file 'd.json'
+Wrote wave file 'd.wav' with 74584992 bytes of data
+Writing setup file 'e.json'
+```
+
+The pre-emphasis curve is obtained by multiplying each real-valued sample by a complex-valued calibration matrix computed for each frequency. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. There are several steps to be followed to obtain this file:
+
+- Connect a "straight wire" cable from output to input for the first sweep.
+- Start recording the response file and playing the simulus file. Ideally in one process, but if in different processes then start recording before playing.
+- Let the first sweep run, which takes about two minutes.
+- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 15 seconds for this.
+- Allow playback and recording to continue without interruption, as required to allow both sweeps to be in a single time series.
+- After the second sweep ends, then you can halt playback and recording.
+- Check tone burst offsets in the response file to be sure bursts are approximately 100 msec. after the stimulus file.
+
+Once you have the response wave file, you can run a Python script to obtain the analysis output:
 
 ```
 MarksiMac:RIAAResponse williamm$ ../measResp.py e f 6
@@ -73,6 +92,10 @@ Expected 12166232 frames, found 12582912
 ...
 ```
 
-The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_.
+The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_ posted here. What we see in my prototype is that the left and right channels agree within ±0.05 dB over the range [16 Hz...16 kHz] being flat within ±0.1 dB over the same range.
 
 ![Product of RIAA Pre-emphasis and De-emphasis](RIAAResponse/StateVarResponse.png)
+
+The state variable RIAA circuit as published includes two high-pass elements, one being the bias servo with a time constant of 52.2 msec and the other being a DC blocking capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response.
+
+![High Pass Rolloff Characteristics](RIAAResponse/HPRollOff.png)
