@@ -10,7 +10,7 @@ This snapshot is the insides of the RIAA phono preamp, based on the UAF42 univer
 
 ![RIAA Stage Insides](RIAAResponse/IMG_2847.png)
 
-To measure performance of the RIAA deemphasis circuit I used some Python code previously developed for the AC Bridge project, which is archived in this repo. If you want to follow along, you'll need a computer with sound hardware that can also run some Python scripts. The first step is to install the _acBridge_ repo:
+To measure performance of the RIAA de-emphasis circuit I used some Python code previously developed for the AC Bridge project, which is archived in this repo. If you want to follow along, you'll need a computer with sound hardware that can also run some Python scripts. The first step is to install the _acBridge_ repo:
 
 - [How to install and run the _acBridge_ project.](HowToInstall.md)
 
@@ -54,4 +54,25 @@ The second argument gives the name _c_ to the analysis output description file _
 
 ![Flat Sweep with Outboard DAC](RIAAResponse/FlatSweep.png)
 
-Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. The first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA preemphasis curve and is used to capture the transfer function response of the RIAA stage. If the digital preemphasis curve and analog deemphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard.
+Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. The first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA pre-emphasis curve, and is used to capture the transfer function response of the RIAA stage. Calculations for the pre-emphasis curve are posted here in the spreadsheet _RIAAPreemphasis.xlsx_. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. You can run a Python script to obtain the analysis output:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measResp.py e f 6
+Loading setup file 'e.json'
+Reading wave file 'e.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 12582912,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 12166232 frames, found 12582912
+...
+```
+
+The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_.
+
+![Product of RIAA Pre-emphasis and De-emphasis](RIAAResponse/StateVarResponse.png)
