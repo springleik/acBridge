@@ -15,10 +15,10 @@ To measure performance of the RIAA de-emphasis circuit I used some Python code p
 - [How to install and run the _acBridge_ project.](HowToInstall.md)
 
 
-Then navigate to the _RIAAResponse_ folder in the _acBridge_ project:
+Then navigate to the _RIAAResponse_ folder in the _acBridge_ project. The following code blocks show everything in the terminal window including the console prompt, commands you type, and console output resulting from your commands:
 
 ```
-MarksiMac:GitHub williamm$ cd ../RIAAResponse/
+MarksiMac:check williamm$ cd ../RIAAResponse
 ```
 
 Next generate a stimulus wave file using the setup description file _a.json_ with two frequency sweeps, both having flat response. This may be a slow process depending on your computer, please be patient:
@@ -30,9 +30,7 @@ Wrote wave file 'a.wav' with 74584992 bytes of data
 Writing setup file 'b.json'
 ```
 
-The second argument gives the name _b_ to the augmented description file _b.json_. The optional third argument specifies mode '2' for the stimulus file, which means two tone bursts per frequency with both channels active in the first burst and both channels quiet in the second burst. Bursts are about one second long with one second intervals between, so about four seconds per frequency. The sweep is logarithmic with ten bursts per decade, covering three decades in 31 bursts, just over two minutes per sweep. The setup file _a.json_ includes two sweeps with a pause between them, so total experiment time is more than four minutes. I've posted the results from my computer here as _b.wav_, which you can replace with your own file by playing _a.wav_ and recording _b.wav_ with a straight cable connecting sound output to sound input. After recording, be sure that _b.wav_ is slightly behind _a.wav_ so its tone bursts come say 100 msec. after _a.wav_. This offset is not critical, but there must be some delay for the analysis script to work.
-
-Analysis is performed by running another Python script:
+The first argument _a_ is used to find the setup file _a.json_ and to create the stimulus wave file _a.wav_. The second argument gives the name _b_ to the augmented description file _b.json_. The optional third argument specifies mode '2' for the stimulus file, which means two tone bursts per frequency with both channels active in the first burst and both channels quiet in the second burst. Bursts are about one second long with one second intervals between, so about four seconds per frequency. The sweep is logarithmic with ten bursts per decade, covering three decades in 31 bursts, just over two minutes per sweep. The setup file _a.json_ includes two sweeps with a pause between them, so total experiment time is more than four minutes. I've posted the results from my computer here as _b.wav_, which you can replace with your own file by playing _a.wav_ and recording _b.wav_ with a straight cable connecting sound output to sound input. After recording, be sure that _b.wav_ is slightly behind _a.wav_ so its tone bursts come say 100 msec. after _a.wav_. This offset is not critical, but there must be some delay for the analysis script to work. Analysis is performed by running another Python script:
 
 ```
 MarksiMac:RIAAResponse williamm$ ../measResp.py b c 6
@@ -50,7 +48,7 @@ Wave file parameters:
 Expected 12166232 frames, found 12547203
 ...
 ```
-The second argument gives the name _c_ to the analysis output description file _c.json_. The optional third argument specifies mode '6' for analysis output, which means one row of data for each data point with frequency in the first column. The remaining eight columns contain the real parts of four measurements plus the imaginary parts of four measurements. The measurements are left channel first burst, left channel second burst, right channel first burst, and right channel second burst in that order. This output can be pasted into an Excel spreadsheet to obtain the complex ratio between the first sweep and second sweep for each frequency. A worked example is posted here as _FlatSweep.xlsx_. For my computer the gain ratio is quite flat, while the phase shift is vanishingly small even at the highest frequencies. This is our assurance that the two sweeps of stimulus and response occur with the same sample clock, which is required for measuring the RIAA response with this technique.
+The first argument _b_ is used to find the augmented setup file _b.json_ and the response wave file _b.wav_. The second argument gives the name _c_ to the analysis output description file _c.json_. The optional third argument specifies mode '6' for analysis output, which means one row of data for each data point with frequency in the first column. The remaining eight columns contain the real parts of four measurements plus the imaginary parts of four measurements. The measurements are A). left channel first burst, B). left channel second burst, C). right channel first burst, and D). right channel second burst in that order. This output can be pasted into an Excel spreadsheet to obtain the complex ratio between the first sweep and second sweep for each frequency. A worked example is posted here as _FlatSweep.xlsx_. For my computer the gain ratio is quite flat, while the phase shift is vanishingly small even at the highest frequencies. This is our assurance that the two sweeps of stimulus and response occur with the same sample clock, as required for measuring the RIAA response with this technique.
 
 ![Flat Sweep with Outboard DAC](RIAAResponse/FlatSweep.png)
 
@@ -63,13 +61,12 @@ Wrote wave file 'd.wav' with 74584992 bytes of data
 Writing setup file 'e.json'
 ```
 
-The pre-emphasis curve is obtained by multiplying each real-valued sample by a complex-valued calibration matrix computed for each frequency. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. There are several steps to be followed to obtain this file:
+The pre-emphasis curve is obtained by multiplying each real-valued sample by a complex-valued calibration matrix in setup description file _d.json_, which is computed for each frequency in the sweep. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. There are several steps to be followed to obtain this file:
 
 - Connect a "straight wire" cable from output to input for the first sweep.
-- Start recording the response file and playing the simulus file. Ideally in one process, but if in different processes then start recording before playing.
+- Start recording the response wave file and playing the stimulus wave file. Ideally in one process, but if in different processes then start recording before playing. A reminder here that the record and playback sample clocks must be the same for this to work.
 - Let the first sweep run, which takes about two minutes.
-- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 15 seconds for this.
-- Allow playback and recording to continue without interruption, as required to allow both sweeps to be in a single time series.
+- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 16 seconds for this. Allow playback and recording to continue without interruption, as required to allow both sweeps to be in a single time series.
 - After the second sweep ends, then you can halt playback and recording.
 - Check tone burst offsets in the response file to be sure bursts are approximately 100 msec. after the stimulus file.
 
@@ -92,10 +89,10 @@ Expected 12166232 frames, found 12582912
 ...
 ```
 
-The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_ posted here. What we see in my prototype is that the left and right channels agree within ±0.05 dB over the range [16 Hz...16 kHz] being flat within ±0.1 dB over the same range.
+The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_ posted here. What we see in my prototype is that the left and right channels agree within ±0.05 dB over the range [16 Hz...16 kHz] while being flat within ±0.1 dB over the same range.
 
 ![Product of RIAA Pre-emphasis and De-emphasis](RIAAResponse/StateVarResponse.png)
 
-The state variable RIAA circuit as published includes two high-pass elements, one being the bias servo with a time constant of 52.2 msec and the other being a DC blocking capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response.
+The state variable RIAA circuit as published includes two DC blocking circuits, one being the bias servo with a time constant of 52.2 msec. and the other being a DC blocking capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response. As shown the two high-pass roll-offs account for most of the deviation.
 
 ![High Pass Rolloff Characteristics](RIAAResponse/HPRollOff.png)
