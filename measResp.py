@@ -11,11 +11,16 @@ M. Williamsen, 4 July 2025
 import wave, math, struct, json, sys, cmath, itertools
 
 # check for command line args
-if len (sys.argv) != 3:
-    print ('usage: python3 {} inFileNameNoExt outFileNameNoExt'.format (sys.argv[0]))
+if len (sys.argv) < 3:
+    print ('usage: python3 {} inFileNameNoExt outFileNameNoExt [mode]'.format (sys.argv[0]))
     quit ()
 inFileName = sys.argv[1]    # setup for creating stimulus file
 outFileName = sys.argv[2]   # setup for analyzing response file
+
+# optional third argument sets response mode, default is mode 4
+mode = 4
+if len (sys.argv) > 3:
+    mode = int(sys.argv[3])
 
 # load setup file
 theTree = []
@@ -135,40 +140,49 @@ with wave.open(inFileName + '.wav', 'rb') as waveFile:
         d = theMeas ['bursts'][1]['chans'][1]['rect']
 
         # gather direct values for wireless verification
-        if False:
+        if 1 == mode:
             print (freq, abs(a), cmath.phase(a),
             abs(b), cmath.phase(b),
             abs(c), cmath.phase(c),
             abs(d), cmath.phase(d),)
 
         # gather ratios with respect to 'a' for calibration
-        if False:
+        elif 2 == mode:
             ratio = 0+0j
             if output == 'left': ratio = b/a
             elif output == 'right': ratio = a/b
             print (freq, ratio.real, ratio.imag)
 
         # gather absolute values for calibration
-        if False:
+        elif 3 == mode:
             e = f = 0+0j
             if output == 'left': e, f = a, b
             elif output == 'right': e, f = b, a
             print (freq, abs(e), cmath.phase(e), abs(f), cmath.phase(f))
 
         # simple ratio measurement, assumes like impedances
-        if True:
+        elif 4 == mode:
             ratio = b / a
             print (freq, a.real, a.imag, b.real, b.imag,
                 ratio.real, ratio.imag)
 
         # gather impedance ratio and time constant for measurement
         # assumes resistor on left output and capacitor on right
-        if False:
+        elif 5 == mode:
             ratio = b / a
             omega = complex (0, 2 * math.pi * freq)
             tau = ratio / omega
             print (freq, a.real, a.imag, b.real, b.imag,
                 ratio.real, ratio.imag, tau.real, tau.imag)
+
+        # gather complex values for analysis in Excel
+        elif 6 == mode:
+            print (freq, a.real, b.real, c.real, d.real,
+                a.imag, b.imag, c.imag, d.imag)
+
+        # unknown mode encountered
+        else:
+            print ('Unknown mode encountered: {}.'.format (mode))
 
 # show decorated tree on the console
 # print (json.dumps(theTree, indent = 2, default = customJson))

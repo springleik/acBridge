@@ -2,10 +2,97 @@
 This is a landing page for the No-Trim RIAA Phono Stage project. A pre-print of that work is posted here:
 - [No-Trim RIAA Stage: Employs Analog Computer](https://github.com/springleik/BodeS/blob/master/RIAApaper.pdf)
 
-GitHub may have some trouble rendering PDFs, please download the above document and render it locally. Thanks! Following snapshot is my listening setup:
+GitHub may have some trouble rendering PDFs. To view the above document, please download and render it locally. Thanks! Following snapshot is my listening setup:
 
-![RIAA Stage at Work](IMG_2913.png)
+![RIAA Stage at Work](RIAAResponse/IMG_2913.png)
 
 This snapshot is the insides of the RIAA phono preamp, based on the UAF42 universal active filter from Texas Instruments:
 
-![RIAA Stage Insides](IMG_2847.png)
+![RIAA Stage Insides](RIAAResponse/IMG_2847.png)
+
+To measure performance of the RIAA de-emphasis circuit I used some Python code previously developed for the AC Bridge project, which is archived in this repo. If you want to follow along, you'll need a computer with sound hardware that can also run some Python scripts. The first step is to install the _acBridge_ repo:
+
+- [How to install and run the _acBridge_ project.](HowToInstall.md)
+
+
+Then navigate to the _RIAAResponse_ folder in the _acBridge_ project. The following code blocks show everything in the terminal window including the console prompt, commands you type, and console output resulting from your commands:
+
+```
+MarksiMac:check williamm$ cd ../RIAAResponse
+```
+
+Next generate a stimulus wave file using the setup description file _a.json_ with two frequency sweeps, both having flat response. This may be a slow process depending on your computer, please be patient:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measStim.py a b 2
+Loading setup file 'a.json'
+Wrote wave file 'a.wav' with 74584992 bytes of data
+Writing setup file 'b.json'
+```
+
+The first argument _a_ is used to find the setup file _a.json_ and to create the stimulus wave file _a.wav_. The second argument gives the name _b_ to the augmented description file _b.json_. The optional third argument specifies mode '2' for the stimulus file, which means two tone bursts per frequency with both channels active in the first burst and both channels quiet in the second burst. Bursts are about one second long with one second intervals between, so about four seconds per frequency. The sweep is logarithmic with ten bursts per decade, covering three decades in 31 bursts, just over two minutes per sweep. The setup file _a.json_ includes two sweeps with a pause between them, so total experiment time is more than four minutes. I've posted the results from my computer here as _b.wav_, which you can replace with your own file by playing _a.wav_ and recording _b.wav_ with a straight cable connecting sound output to sound input. After recording, be sure that _b.wav_ is slightly behind _a.wav_ so its tone bursts come say 100 msec. after _a.wav_. This offset is not critical, but there must be some delay for the analysis script to work. Analysis is performed by running another Python script:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measResp.py b c 6
+Loading setup file 'b.json'
+Reading wave file 'b.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 12547203,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 12166232 frames, found 12547203
+...
+```
+The first argument _b_ is used to find the augmented setup file _b.json_ and the response wave file _b.wav_. The second argument gives the name _c_ to the analysis output description file _c.json_. The optional third argument specifies mode '6' for analysis output, which means one row of data for each data point with frequency in the first column. The remaining eight columns contain the real parts of four measurements plus the imaginary parts of four measurements. The measurements are A). left channel first burst, B). left channel second burst, C). right channel first burst, and D). right channel second burst in that order. This output can be pasted into an Excel spreadsheet to obtain the complex ratio between the first sweep and second sweep for each frequency. A worked example is posted here as _FlatSweep.xlsx_. For my computer the gain ratio is quite flat, while the phase shift is vanishingly small even at the highest frequencies. This is our assurance that the two sweeps of stimulus and response occur with the same sample clock, as required for measuring the RIAA response with this technique.
+
+![Flat Sweep with Outboard DAC](RIAAResponse/FlatSweep.png)
+
+Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. Stimulus setup description file _d.json_ specifies that the first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA pre-emphasis curve, and is used to capture the transfer function response of the RIAA stage. Calculations for the pre-emphasis curve are posted here in the spreadsheet _RIAAPreemphasis.xlsx_. The command line for generating the stimulus file follows:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measStim.py d e 2
+Loading setup file 'd.json'
+Wrote wave file 'd.wav' with 74584992 bytes of data
+Writing setup file 'e.json'
+```
+
+The pre-emphasis curve is obtained by multiplying each real-valued sample by a complex-valued calibration matrix in setup description file _d.json_, which is computed for each frequency in the sweep. If the digital pre-emphasis curve and analog de-emphasis curve are the exact inverse of each other, then the overall response should be perfectly flat. What we actually find is that the overall response is not flat, but rather shows everything not accounted for in the RIAA standard. The response wave file from my bench is posted here as _e.wav_. There are several steps to be followed to obtain this file:
+
+- Connect a "straight wire" cable from output to input for the first sweep.
+- Start recording the response wave file and playing the stimulus wave file. Ideally in one process, but if in different processes then start recording before playing. A reminder here that the record and playback sample clocks must be the same for this to work.
+- Let the first sweep run, which takes about two minutes.
+- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 16 seconds for this. Let playback and recording continue without interruption, as needed to have both sweeps in a single time series.
+- After the second sweep ends, then you can halt playback and recording.
+- Check that tone bursts in the response file are approximately 100 msec. behind the stimulus file. Adjust the response file if necessary.
+
+Once you have the response wave file, you can run a Python script to obtain the analysis output:
+
+```
+MarksiMac:RIAAResponse williamm$ ../measResp.py e f 6
+Loading setup file 'e.json'
+Reading wave file 'e.wav'
+Wave file parameters:
+{
+  "nchannels": 2,
+  "sampwidth": 3,
+  "framerate": 44100,
+  "nframes": 12582912,
+  "comptype": "NONE",
+  "compname": "not compressed"
+}
+Expected 12166232 frames, found 12582912
+...
+```
+
+The analysis output from my bench has been pasted into the spreadsheet _StateVarResponse.xlsx_ posted here. What we see in my prototype is that the left and right channels agree within ±0.05 dB over the range [16 Hz...16 kHz] while being flat within ±0.1 dB over the same range.
+
+![Product of RIAA Pre-emphasis and De-emphasis](RIAAResponse/StateVarResponse.png)
+
+The state variable RIAA circuit as published includes two DC blocking circuits, one being the bias servo with a time constant of 52.2 msec. and the other being an AC coupling capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response. As shown the two high-pass roll-offs account for most of the deviation.
+
+![High Pass Rolloff Characteristics](RIAAResponse/HPRollOff.png)
