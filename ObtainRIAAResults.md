@@ -2,7 +2,7 @@
 This is a landing page for the No-Trim RIAA Phono Stage project. A pre-print of that work is posted here:
 - [No-Trim RIAA Stage: Employs Analog Computer](https://github.com/springleik/BodeS/blob/master/RIAApaper.pdf)
 
-GitHub may have some trouble rendering PDFs, please download the above document and render it locally. Thanks! Following snapshot is my listening setup:
+GitHub may have some trouble rendering PDFs. To view the above document, please download and render it locally. Thanks! Following snapshot is my listening setup:
 
 ![RIAA Stage at Work](RIAAResponse/IMG_2913.png)
 
@@ -66,9 +66,9 @@ The pre-emphasis curve is obtained by multiplying each real-valued sample by a c
 - Connect a "straight wire" cable from output to input for the first sweep.
 - Start recording the response wave file and playing the stimulus wave file. Ideally in one process, but if in different processes then start recording before playing. A reminder here that the record and playback sample clocks must be the same for this to work.
 - Let the first sweep run, which takes about two minutes.
-- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 16 seconds for this. Allow playback and recording to continue without interruption, as required to allow both sweeps to be in a single time series.
+- When the first sweep ends, immediately switch in your RIAA preamp under test. As posted, the setup file allows about 16 seconds for this. Let playback and recording continue without interruption, as needed to have both sweeps in a single time series.
 - After the second sweep ends, then you can halt playback and recording.
-- Check tone burst offsets in the response file to be sure bursts are approximately 100 msec. after the stimulus file.
+- Check that tone bursts in the response file are approximately 100 msec. behind the stimulus file. Adjust the response file if necessary.
 
 Once you have the response wave file, you can run a Python script to obtain the analysis output:
 
@@ -93,6 +93,6 @@ The analysis output from my bench has been pasted into the spreadsheet _StateVar
 
 ![Product of RIAA Pre-emphasis and De-emphasis](RIAAResponse/StateVarResponse.png)
 
-The state variable RIAA circuit as published includes two DC blocking circuits, one being the bias servo with a time constant of 52.2 msec. and the other being a DC blocking capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response. As shown the two high-pass roll-offs account for most of the deviation.
+The state variable RIAA circuit as published includes two DC blocking circuits, one being the bias servo with a time constant of 52.2 msec. and the other being an AC coupling capacitor at the input with a time constant of 103.4 msec. We can compute the transfer function for these low frequency roll-offs in Excel, and then compare to the measured response. As shown the two high-pass roll-offs account for most of the deviation.
 
 ![High Pass Rolloff Characteristics](RIAAResponse/HPRollOff.png)
