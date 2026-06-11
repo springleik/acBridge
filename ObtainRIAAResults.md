@@ -24,7 +24,7 @@ MarksiMac:check williamm$ cd ../RIAAResponse
 Next generate a stimulus wave file using the setup description file _a.json_ with two frequency sweeps, both having flat response. This may be a slow process depending on your computer, please be patient:
 
 ```
-MarksiMac:RIAAResponse williamm$ ../measStim.py a b 2
+MarksiMac:RIAAResponse williamm$ python3 ../measStim.py a b 2
 Loading setup file 'a.json'
 Wrote wave file 'a.wav' with 74584992 bytes of data
 Writing setup file 'b.json'
@@ -33,7 +33,7 @@ Writing setup file 'b.json'
 The first argument _a_ is used to find the setup file _a.json_ and to create the stimulus wave file _a.wav_. The second argument gives the name _b_ to the augmented description file _b.json_. The optional third argument specifies mode '2' for the stimulus file, which means two tone bursts per frequency with both channels active in the first burst and both channels quiet in the second burst. Bursts are about one second long with one second intervals between, so about four seconds per frequency. The sweep is logarithmic with ten bursts per decade, covering three decades in 31 bursts, just over two minutes per sweep. The setup file _a.json_ includes two sweeps with a pause between them, so total experiment time is more than four minutes. I've posted the results from my computer here as _b.wav_, which you can replace with your own file by playing _a.wav_ and recording _b.wav_ with a straight cable connecting sound output to sound input. After recording, be sure that _b.wav_ is slightly behind _a.wav_ so its tone bursts come say 100 msec. after _a.wav_. This offset is not critical, but there must be some delay for the analysis script to work. Analysis is performed by running another Python script:
 
 ```
-MarksiMac:RIAAResponse williamm$ ../measResp.py b c 6
+MarksiMac:RIAAResponse williamm$ python3 ../measResp.py b c 6
 Loading setup file 'b.json'
 Reading wave file 'b.wav'
 Wave file parameters:
@@ -55,7 +55,7 @@ The first argument _b_ is used to find the augmented setup file _b.json_ and the
 Now we are ready for the actual RIAA response measurement. For this we use a specially prepared stimulus wave file _d.wav_ with two different frequency sweeps. Stimulus setup description file _d.json_ specifies that the first sweep is flat and is used to capture the "straight wire" response without connecting the RIAA stage. The second sweep has the phase and amplitude of each tone burst modified by the RIAA pre-emphasis curve, and is used to capture the transfer function response of the RIAA stage. Calculations for the pre-emphasis curve are posted here in the spreadsheet _RIAAPreemphasis.xlsx_. The command line for generating the stimulus file follows:
 
 ```
-MarksiMac:RIAAResponse williamm$ ../measStim.py d e 2
+MarksiMac:RIAAResponse williamm$ python3 ../measStim.py d e 2
 Loading setup file 'd.json'
 Wrote wave file 'd.wav' with 74584992 bytes of data
 Writing setup file 'e.json'
@@ -73,7 +73,7 @@ The pre-emphasis curve is obtained by multiplying each real-valued sample by a c
 Once you have the response wave file, you can run a Python script to obtain the analysis output:
 
 ```
-MarksiMac:RIAAResponse williamm$ ../measResp.py e f 6
+MarksiMac:RIAAResponse williamm$ python3 ../measResp.py e f 6
 Loading setup file 'e.json'
 Reading wave file 'e.wav'
 Wave file parameters:
